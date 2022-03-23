@@ -1,0 +1,27 @@
+.primary-nav {
+    display: flex;
+    height: 55px;
+    background-color: white;
+    align-items: center;
+    box-shadow: 0 2px 3px -2px rgba(0,0,0,.2);
+}
+
+.navbar-profile {
+    margin: 10px;
+    margin-left: auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 15pt;
+    
+
+    img {
+        border-radius: 12px;
+        margin: 0 10px;
+        max-height: 40px;
+    }
+}
