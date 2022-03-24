@@ -1,16 +1,40 @@
+@import '../../../_variables.scss';
+
 .primary-nav {
-    display: flex;
-    height: 55px;
     background-color: white;
-    align-items: center;
     box-shadow: 0 2px 3px -2px rgba(0,0,0,.2);
+    width: 100%;
+
+    .nav-inner {
+        max-width: $container-lg;
+        margin: 0 auto;
+        display: flex;
+        height: 55px;
+        align-items: center;
+        padding: 0 5px;
+    }
 }
 
 .navbar-profile {
     margin: 10px;
     margin-left: auto;
-    border-radius: 50%;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    img {
+        max-height: 35px;
+        display: block;
+        width: auto;
+        height: auto;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    span {
+        margin-right: 10px;
+        font-weight: 500;
+    }
+    
 }
 
 .navbar-brand {
@@ -22,6 +46,10 @@
     img {
         border-radius: 12px;
         margin: 0 10px;
-        max-height: 40px;
+        max-height: 30px;
     }
+}
+
+.nav-item {
+    margin-left: 45px;
 }

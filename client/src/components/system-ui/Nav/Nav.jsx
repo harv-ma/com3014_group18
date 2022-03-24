@@ -11,14 +11,25 @@ const Nav = () => {
 
   return (
     <nav className="primary-nav">
-      <Link class="navbar-brand" to="/">
-        {/* <img src="https://picsum.photos/100/50" alt="logo"/> */}
-        In the Reeds
-      </Link>
-      <Link to="/">Home</Link>
-      <Link class="navbar-profile" to="/profile">
-        <img src={user.avatar} alt="avatar" width="40" height="40" />
-      </Link>
+      <div className="nav-inner">
+        <Link className="navbar-brand" to="/">
+          {/* <img src="https://picsum.photos/100/50" alt="logo"/> */}
+          In the Reeds
+        </Link>
+        <Link className="nav-item" to="/">
+          Home
+        </Link>
+        <Link className="nav-item" to="/">
+          Link2
+        </Link>
+        <Link className="nav-item" to="/">
+          Link3
+        </Link>
+        <Link className="navbar-profile" to="/profile">
+          <span>{user.username}</span>
+          <img src={user.avatar} alt="avatar" />
+        </Link>
+      </div>
     </nav>
   );
 };
