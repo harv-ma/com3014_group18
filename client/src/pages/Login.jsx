@@ -1,7 +1,7 @@
 import React from "react";
 
-const Homepage = () => {
+const Login = () => {
   return <main id="homepage">This it the Homepage!</main>;
 };
 
-export default Homepage;
+export default Login;

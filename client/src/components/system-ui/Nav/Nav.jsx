@@ -1,16 +1,16 @@
-import "./Nav.scss"
-import { Link } from "react-router-dom"
+import React from "react";
+import "./Nav.scss";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../../context/UserContext";
 
 const Nav = () => {
+  const user = useContext(UserContext);
 
-  const user = useContext(UserContext)
-
-  console.log(user)
+  // console.log(user)
 
   return (
-    <nav class="primary-nav">
+    <nav className="primary-nav">
       <Link class="navbar-brand" to="/">
         {/* <img src="https://picsum.photos/100/50" alt="logo"/> */}
         In the Reeds
@@ -21,6 +21,6 @@ const Nav = () => {
       </Link>
     </nav>
   );
-}
+};
 
 export default Nav;
