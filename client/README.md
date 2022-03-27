@@ -1,3 +1,9 @@
+# Environment Variables
+
+1. Make a copy of .env.example
+2. Rename is to .env
+3. Update env with necessary values
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
