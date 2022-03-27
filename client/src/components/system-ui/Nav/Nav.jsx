@@ -6,9 +6,6 @@ import UserContext from "../../../context/UserContext";
 
 const Nav = () => {
   const user = useContext(UserContext);
-
-  // console.log(user)
-
   return (
     <nav className="primary-nav">
       <div className="nav-inner">
