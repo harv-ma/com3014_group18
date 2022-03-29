@@ -1,5 +1,5 @@
 FROM openjdk:17-alpine
 WORKDIR /app
 COPY target/*.jar app.jar
-EXPOSE 8761
+EXPOSE 9000
 ENTRYPOINT ["java", "-jar", "app.jar"]
