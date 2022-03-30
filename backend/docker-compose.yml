@@ -19,4 +19,4 @@ services:
         condition: service_started
     links:
       - serviceregistry
-    restart: on-failure  
+    restart: on-failure
