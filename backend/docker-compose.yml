@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  serviceregistry:
+    build: ServiceRegistry/
+    image: group18/serviceregistry
+    container_name: serviceregistry
+    ports:
+      - "8761:8761"
+    restart: on-failure
+  apigateway:
+    build: APIGateway/
+    image: group18/apigateway
+    container_name: apigateway
+    ports:
+      - "9000:9000"
+    depends_on:
+      serviceregistry:
+        condition: service_started
+    links:
+      - serviceregistry
+    restart: on-failure  
