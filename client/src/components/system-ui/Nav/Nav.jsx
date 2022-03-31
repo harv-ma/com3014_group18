@@ -35,6 +35,12 @@ const Nav = () => {
           </Link>
         </div>
       </div>
+      <div className="mobile-nav">
+        <Link className="navbar-brand" to="/">
+          <img src="/logo.png" alt="logo" />
+          In the Reeds
+        </Link>
+      </div>
     </nav>
   );
 };

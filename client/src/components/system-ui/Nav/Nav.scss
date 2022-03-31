@@ -3,18 +3,17 @@
 .primary-nav {
     background-color: white;
     box-shadow: 0 2px 3px -2px rgba(0,0,0,.2);
-    width: 100%;
-    
+    width: 100%; 
+}
 
-    .nav-inner {
-        max-width: $container-lg;
-        margin: 0 auto;
-        display: flex;
-        height: 55px;
-        align-items: center;
-        padding: 0 5px;
-        justify-content: space-between;
-    }
+.nav-inner {
+    max-width: $container-lg;
+    margin: 0 auto;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    padding: 0 5px;
+    justify-content: space-between;
 }
 
 .navbar-profile {
@@ -76,5 +75,23 @@
         width: 60px;
         background-color: $theme_interest;
         padding: 7px 9px;
+    }
+}
+
+.mobile-nav {
+    display: none;
+    height: 60px;
+    justify-content: center;
+    width: 100%;
+}
+
+
+@media only screen and (max-width: $container-md) {
+    .nav-inner {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: flex;
     }
 }
