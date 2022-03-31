@@ -1,0 +1,16 @@
+@import '../../_variables.scss';
+
+
+.home-intro {
+    display: flex;
+    margin-top: 90px;
+
+    div:nth-child(1) {
+        
+    }
+
+    div:nth-child(2) {
+        background-color: blue;
+    }
+    
+}
