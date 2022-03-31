@@ -4,6 +4,7 @@
     background-color: white;
     box-shadow: 0 2px 3px -2px rgba(0,0,0,.2);
     width: 100%;
+    
 
     .nav-inner {
         max-width: $container-lg;
@@ -12,6 +13,7 @@
         height: 55px;
         align-items: center;
         padding: 0 5px;
+        justify-content: space-between;
     }
 }
 
@@ -22,7 +24,7 @@
     align-items: center;
 
     img {
-        max-height: 35px;
+        max-height: 45px;
         display: block;
         width: auto;
         height: auto;
@@ -40,16 +42,39 @@
 .navbar-brand {
     display: flex;
     align-items: center;
-    font-size: 15pt;
-    
+    font-size: 16pt;
+    color: $theme_primary;
 
     img {
-        border-radius: 12px;
+        border-radius: 45px;
         margin: 0 10px;
-        max-height: 30px;
+        max-height: 40px;
+        filter: invert(52%) sepia(87%) saturate(422%) hue-rotate(81deg) brightness(104%) contrast(82%);
     }
 }
 
 .nav-item {
-    margin-left: 45px;
+    
+    font-weight: 500;
+}
+
+.nav-signup {
+    // margin-left: auto;
+    display: flex;
+
+    .login {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+    }
+
+    .signup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        background-color: $theme_interest;
+        padding: 7px 9px;
+    }
 }

@@ -10,22 +10,30 @@ const Nav = () => {
     <nav className="primary-nav">
       <div className="nav-inner">
         <Link className="navbar-brand" to="/">
-          {/* <img src="https://picsum.photos/100/50" alt="logo"/> */}
+          <img src="/logo.png" alt="logo" />
           In the Reeds
         </Link>
-        <Link className="nav-item" to="/">
-          Home
+        <Link className="nav-item" to="/search">
+          Job Search
         </Link>
-        <Link className="nav-item" to="/">
-          Link2
+        <Link className="nav-item" to="/employer-area">
+          {"Employer's Area"}
         </Link>
-        <Link className="nav-item" to="/">
-          Link3
+        <Link className="nav-item" to="/contact">
+          Contact Us
         </Link>
-        <Link className="navbar-profile" to="/profile">
+        {/* <Link className="navbar-profile" to="/profile">
           <span>{user.username}</span>
           <img src={user.avatar} alt="avatar" />
-        </Link>
+        </Link> */}
+        <div className="nav-signup">
+          <Link className="login" to="/login">
+            Login
+          </Link>
+          <Link className="signup" to="/signup">
+            Sign Up
+          </Link>
+        </div>
       </div>
     </nav>
   );
