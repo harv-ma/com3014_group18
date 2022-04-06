@@ -3,14 +3,60 @@
 
 .home-intro {
     display: flex;
-    margin-top: 90px;
+    height: 100vh;
+    justify-content: space-between;
 
-    div:nth-child(1) {
-        
+    @media only screen and (max-width: $container-md) {
+        flex-direction: column;
     }
 
-    div:nth-child(2) {
-        background-color: blue;
+    align-items: center;
+
+    .text {
+        max-width: 30rem;
+        span {
+            position: relative;
+            transition: all ease-in-out 200ms;
+            color: $theme_primary;
+        }
+
+        p {
+            font-size: 0.9rem;
+            letter-spacing: 0.01rem;
+        }
+
+        @media only screen and (max-width: $container-md) {
+            max-width: 80%;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
     }
-    
+
+    .search {
+        flex-shrink: 0;
+        width: 25rem;
+
+        .inner {
+            display: flex;
+            flex-direction: column;
+            max-width: 16rem;
+            background-color: white;
+
+            padding: 1.2rem 1.5rem 0.2rem 1.5rem;
+
+            border-radius: 12px;
+            border: 2px solid $theme_grey;
+            margin: 0 auto;
+        }
+    }
+}
+
+.intro-fade-in-enter span {
+    top: 0;
+    transition: all ease-in-out 200ms;
+}
+
+.intro-fade-in-exit span {
+    color: red;
+    top: 90px;
 }

@@ -19,9 +19,12 @@ a {
 }
 
 main {
-    padding: 10px 0 0 0;
+    padding: 10px 10px;
     margin: 0 auto;
     max-width: $container-lg;
+    overflow: hidden;
+    position: relative;
+    min-height: calc(100vh - 80px);
 }
 
 #notfound {
@@ -43,4 +46,60 @@ main {
         margin-top: 10px;
         color: $theme_interest;
     }
+}
+
+input {
+    height: 2.6rem;
+    border: 1px solid #A9A9A9;
+    background-color: #F4F4F4;
+    font-size: 1rem;
+    padding: 0.1rem 1rem;
+
+    border-radius: 10px;
+
+    &::placeholder {
+        color: #A9A9A9;
+        font-size: 1rem;
+    }
+
+    &:focus {
+        outline: 2px solid $theme_interest;
+        box-shadow: none;
+        border-color: transparent;
+    }
+}
+
+label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin: 0.7rem 0;
+}
+
+button {
+    margin: 1.6rem 0;
+    height: 3rem;
+
+    border-radius: 30px;
+    background-color: $theme_interest;
+    color: white;
+    font-size: 1.2rem;
+
+    border: none;
+
+    &:hover {
+        background-color: $theme_secondary;
+    }
+
+    cursor: pointer;
+}
+
+.svg-reeds {
+    fill: $theme_primary;
+    opacity: 0.4;
+    transform: scaleX(-1);
+    position: absolute;
+    top: 0;
+    right: -40px;
+    max-width: 40rem;
+    z-index: -1;
 }
