@@ -3,7 +3,7 @@
 
 .home-intro {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 80px);
     justify-content: space-between;
 
     @media only screen and (max-width: $container-md) {

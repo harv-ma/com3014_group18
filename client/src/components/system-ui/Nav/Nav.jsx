@@ -3,6 +3,7 @@ import "./Nav.scss";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../../context/UserContext";
+import ReedLogo from "../../svgs/ReedLogo";
 
 const Nav = () => {
   const user = useContext(UserContext);
@@ -10,7 +11,8 @@ const Nav = () => {
     <nav className="primary-nav">
       <div className="nav-inner">
         <Link className="navbar-brand" to="/">
-          <img src="/logo.png" alt="logo" />
+          {/* <img src="/logo.png" alt="logo" /> */}
+          <ReedLogo />
           In the Reeds
         </Link>
         <Link className="nav-item" to="/search">
