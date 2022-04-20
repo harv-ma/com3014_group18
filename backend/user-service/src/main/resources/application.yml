@@ -1,0 +1,26 @@
+server:
+  port: 9001
+
+user-service:
+  secret-key: bkYZaIasLpx1Lwn9lxPR9K689dlCkFxn
+
+spring:
+  application:
+    name: USER-SERVICE
+  datasource:
+    url: jdbc:postgresql://userservicedb/users
+    username: group18
+    password: group18
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://serviceregistry:8761/eureka
