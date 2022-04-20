@@ -40,6 +40,9 @@ const Homepage = () => {
           </div>
         </div>
       </div>
+      <div>
+        <p>Who we are</p>
+      </div>
     </main>
   );
 };

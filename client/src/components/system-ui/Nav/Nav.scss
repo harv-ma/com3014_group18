@@ -28,15 +28,6 @@
     display: flex;
     align-items: center;
 
-    img {
-        max-height: 45px;
-        display: block;
-        width: auto;
-        height: auto;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-
     span {
         margin-right: 10px;
         font-weight: 500;
@@ -50,11 +41,15 @@
     font-size: 16pt;
     color: $theme_primary;
 
-    img {
+    svg {
         border-radius: 45px;
         margin: 0 10px;
         max-height: 40px;
-        filter: invert(52%) sepia(87%) saturate(422%) hue-rotate(81deg) brightness(104%) contrast(82%);
+        max-width: 40px;
+        color: $theme_primary;
+        z-index: 2;
+        height: auto;
+        width: auto;
     }
 }
 
