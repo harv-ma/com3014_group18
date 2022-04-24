@@ -2,6 +2,7 @@ import React from "react";
 import "./JobPage.scss";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../components/system-ui/Button/Button";
+import Share from "../../components/system-ui/Share/Share";
 
 const JobPage = () => {
   const { job_id } = useParams();
@@ -11,7 +12,10 @@ const JobPage = () => {
       <div className="job-container">
         <div className="job-content">
           <div className="job-content__title">
-            <h2>Software Engineer (Full-time)</h2>
+            <h2>
+              <span>Software Engineer (Full-time)</span>{" "}
+              <Button label="Apply Now" to="/" />
+            </h2>
             <div className="save-job"></div>
             <p>
               Posted by{" "}
@@ -95,29 +99,32 @@ const JobPage = () => {
         </div>
         <div className="job-quick-details">
           <Button label="Apply Now" to="/" />
-          <ul>
-            <li>Quick Details</li>
-            <li>
-              Salary <span>£65,000 per annum</span>
-            </li>
-            <li>
-              Required Skills
-              <ol>
-                <li>Team communication</li>
-                <li>Creative Thinker</li>
-                <li>Good under pressure</li>
-              </ol>
-            </li>
-            <li>
-              Where <span>Central Londong</span>
-            </li>
-            <li>
-              Type <span>Permanent</span>
-            </li>
-            <li>
-              Date Posted <span>8th March 2022</span>
-            </li>
-          </ul>
+          <div className="job-quick-details__container">
+            <ul>
+              <li>Quick Details</li>
+              <li>
+                Salary <span>£65,000 per annum</span>
+              </li>
+              <li>
+                Required Skills
+                <ol>
+                  <li>Team communication</li>
+                  <li>Creative Thinker</li>
+                  <li>Good under pressure</li>
+                </ol>
+              </li>
+              <li>
+                Where <span>Central Londong</span>
+              </li>
+              <li>
+                Type <span>Permanent</span>
+              </li>
+              <li>
+                Date Posted <span>8th March 2022</span>
+              </li>
+            </ul>
+            <Share className="job-quick-details__share" />
+          </div>
         </div>
       </div>
       <div className="related-jobs">Hi</div>
