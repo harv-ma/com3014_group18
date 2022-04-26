@@ -1,0 +1,21 @@
+@import '../../_variables.scss';
+
+.joblist {
+    max-width: $container-lg;
+}
+
+#container{width:100%;}
+#left{float:left;}
+#right{float:right;}
+#center{margin:0 auto;}
+
+#container {
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    flex-wrap: nowrap;              /* default value; can be omitted */
+    justify-content: space-between; /* switched from default (flex-start) */
+    // background-color: lightyellow;
+  }
+  #container > div {
+    width: 150px;
+  }
