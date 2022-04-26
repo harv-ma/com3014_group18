@@ -15,7 +15,7 @@ const router = () => {
       <Route path="/jobs/:job_id" exact element={<JobPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-  );
+  ); // jobs line may switch to 'search' depending on how passing search params works
 };
 
 export default router;
