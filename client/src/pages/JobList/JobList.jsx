@@ -7,7 +7,17 @@ import "./JobList.scss";
 const JobList = () => {
     return (
         <main id="joblist">
-            This is the Job search page!
+            <p>This is the Job search page!</p>
+            <div className="search">
+                <div className="inner">
+                    <label className="searchTitle">Job Title</label>
+                    <input placeholder="Teacher"></input>
+                    <label className="searchTitle">Around</label>
+                    <input placeholder="Guildford"></input>
+                    <button>Search Now!</button>
+                </div>
+            </div>
+            <p></p>
             <div className="JobsAccordion">
                 <Accordion defaultActiveKey="0" alwaysOpen>
                     <Accordion.Item eventKey="0">
