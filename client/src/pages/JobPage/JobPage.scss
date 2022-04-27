@@ -5,29 +5,29 @@
     max-width: $container-lg;
 }
 
+.sticky-title {
+    position: sticky;
+    top: 60px;
+    background-color: red;
+}
+
 .job-content {
 
-    &__title h2 button {
-       display: none;
-    }
+    h2 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-    @media only screen and (max-width: $container-md) {
-        &__title {
-            h2 {
-                display: flex;
-                align-items: center;
-                
-                span {
-                    flex-shrink: 0;
-                    padding-right: 1rem;
-                }
-
-                button {
-                    display: block;
-                }
-            }
+        span {
+            flex-shrink: 0;
+            padding-right: 1rem;
+        }
+        button {
+            width: 14rem;
+            margin: 0;
         }
     }
+
 
     @media only screen and (max-width: $container-sm) {
         &__title {
@@ -42,48 +42,35 @@
 
                 button {
                     display: block;
+                    width: 100%;
+                    margin-top: 2rem;
                 }
             }
         }
     }
 }
 
-.job-quick-details {
-    width: 17rem;
-    flex-shrink: 0;
-    margin-left: 2rem;
-    display: flex;
-    flex-direction: column;
-
-    @media only screen and (max-width: $container-md) {
-        display: none;
-    }
-    
+.job-quick-details {    
 
     ul {
         list-style: none;
-        padding: 1.5rem;
-        display: block;
-    }
+        padding: 0;
+        display: grid;
+        font-weight: bold;
+        grid-template-columns: auto auto auto;
+        margin: 2rem 0;
 
-    &__container {
+        background-color: $theme_light_grey;
         border: 2px solid $theme_primary;
         border-radius: 20px;
-        background-color: $theme_light_grey;
-        height: 100%;
-        position: relative;
-    }
+        padding: 1.3rem;
 
-    &__share {
-        display: flex;
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        align-items: center;
+        li {
+            margin: 10px 0;
+        }
 
         span {
-            margin-left: 0.3rem;
+            font-weight: normal;
         }
     }
 }

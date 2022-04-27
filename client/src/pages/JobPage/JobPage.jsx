@@ -9,13 +9,13 @@ const JobPage = () => {
 
   return (
     <main id="jobpage">
+      <h2 className="sticky-title">
+        <span>Software Engineer (Full-time)</span>{" "}
+        <Button label="Apply Now" to="/" />
+      </h2>
       <div className="job-container">
         <div className="job-content">
           <div className="job-content__title">
-            <h2>
-              <span>Software Engineer (Full-time)</span>{" "}
-              <Button label="Apply Now" to="/" />
-            </h2>
             <div className="save-job"></div>
             <p>
               Posted by{" "}
@@ -24,6 +24,25 @@ const JobPage = () => {
               </Link>{" "}
               on Monday 8th March
             </p>
+          </div>
+          <div className="job-quick-details">
+            <div className="job-quick-details__container">
+              <ul>
+                <li>
+                  Salary <span>£65,000 per annum</span>
+                </li>
+                <li>
+                  Where <span>Central London</span>
+                </li>
+                <li>
+                  Type <span>Permanent</span>
+                </li>
+                <li>
+                  Date Posted <span>8th March 2022</span>
+                </li>
+              </ul>
+              {/* <Share className="job-quick-details__share" /> */}
+            </div>
           </div>
           <div className="job-content__description">
             <p>
@@ -95,35 +114,6 @@ const JobPage = () => {
               For more information on how we process your data, see our privacy
               notice at www.lead-search.co.uk
             </p>
-          </div>
-        </div>
-        <div className="job-quick-details">
-          <Button label="Apply Now" to="/" />
-          <div className="job-quick-details__container">
-            <ul>
-              <li>Quick Details</li>
-              <li>
-                Salary <span>£65,000 per annum</span>
-              </li>
-              <li>
-                Required Skills
-                <ol>
-                  <li>Team communication</li>
-                  <li>Creative Thinker</li>
-                  <li>Good under pressure</li>
-                </ol>
-              </li>
-              <li>
-                Where <span>Central Londong</span>
-              </li>
-              <li>
-                Type <span>Permanent</span>
-              </li>
-              <li>
-                Date Posted <span>8th March 2022</span>
-              </li>
-            </ul>
-            <Share className="job-quick-details__share" />
           </div>
         </div>
       </div>
