@@ -1,12 +1,13 @@
 import React from "react";
-import { Component } from "react";
-import { Accordion} from "react-bootstrap";
+import Reeds from "../../components/svgs/Reeds";
+import { Accordion, Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./JobList.scss";
 
 const JobList = () => {
     return (
         <main id="joblist">
+            <Reeds />
             <p>This is the Job search page!</p>
             <div className="search">
                 <div className="inner">
@@ -14,7 +15,7 @@ const JobList = () => {
                     <input placeholder="Teacher"></input>
                     <label className="searchTitle">Around</label>
                     <input placeholder="Guildford"></input>
-                    <button>Search Now!</button>
+                    <button type="button" className="btn btn-primary">Search Now!</button>
                 </div>
             </div>
             <p></p>
