@@ -10,12 +10,35 @@
 #center{margin:0 auto;}
 
 #container {
-    display: flex;                  /* establish flex container */
-    flex-direction: row;            /* default value; can be omitted */
-    flex-wrap: nowrap;              /* default value; can be omitted */
-    justify-content: space-between; /* switched from default (flex-start) */
-    // background-color: lightyellow;
+  display: flex;                  /* establish flex container */
+  flex-direction: row;            /* default value; can be omitted */
+  flex-wrap: nowrap;              /* default value; can be omitted */
+  justify-content: space-between; /* switched from default (flex-start) */
+}
+
+#container > div {
+  width: 150px;
+}
+
+.searchTitle {
+  font-size: large;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  
+  .inner {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    justify-content: space-around;
+    padding: 1rem 1.5rem 0.2rem 1.5rem;
+
+    border-radius: 12px;
+    border: 2px solid $theme_grey;
+    margin: 0 auto;
+    flex-basis: auto;
+    width: 50rem;
   }
-  #container > div {
-    width: 150px;
-  }
+}

@@ -11,11 +11,11 @@ const router = () => {
     <Routes>
       <Route path="/profile" exact element={<Profile />} />
       <Route path="/" exact element={<Homepage />} />
-      <Route path="/jobs" exact element={<JobList />} />
+      <Route path="/search" exact element={<JobList />} />
       <Route path="/jobs/:job_id" exact element={<JobPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-  ); // jobs line may switch to 'search' depending on how passing search params works
+  );
 };
 
 export default router;
