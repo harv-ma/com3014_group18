@@ -5,6 +5,7 @@ import JobPage from "../pages/JobPage/JobPage";
 import JobList from "../pages/JobList/JobList";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile/Profile";
+import ContactPage from "../pages/ContactPage/ContactPage";
 
 const router = () => {
   return (
@@ -14,6 +15,8 @@ const router = () => {
       <Route path="/search" exact element={<JobList />} />
       <Route path="/jobs/:job_id" exact element={<JobPage />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/contact" element={<ContactPage />} />
+
     </Routes>
   );
 };

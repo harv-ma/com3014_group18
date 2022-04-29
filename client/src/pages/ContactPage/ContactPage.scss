@@ -1,0 +1,32 @@
+@import '../../_variables.scss';
+
+.screen a {
+    display: contents;
+    text-decoration: none;
+  }
+  
+  .container-center-horizontal {
+    
+  }
+  
+ 
+  
+  .about-us {
+    align-items: flex-end;
+    background-color: 
+  #ffffff;
+    display: flex;
+    flex-direction: column;
+    height: 1024px;
+    overflow: hidden;
+    width: 1440px;
+  }
+  .need-help-contact-us {
+    left: 50px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 31px;
+    width: 444px;
+  }
+  
+ 
