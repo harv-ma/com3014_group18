@@ -42,15 +42,10 @@
     font-size: 16pt;
     color: $theme_primary;
 
-    svg {
-        border-radius: 45px;
-        margin: 0 10px;
-        max-height: 40px;
-        max-width: 40px;
-        color: $theme_primary;
-        z-index: 2;
-        height: auto;
-        width: auto;
+    .nav-container {
+        width: 50px;
+        height: 50px;
+        margin-right: 0.2rem;
     }
 }
 
@@ -79,23 +74,93 @@
         align-items: center;
         justify-content: center;
         width: 60px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+        
     }
 
     .signup {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 60px;
+        width: 70px;
+        height: 40px;
         background-color: $theme_interest;
         padding: 7px 9px;
+        font-size: 10pt;
+        border-radius: 8px;
+
+        font-weight: 500;
+        color: white;
+
+        &:hover {
+            background-color: $theme_secondary;
+            color: rgb(28, 28, 28);
+        }
     }
 }
 
 .mobile-nav {
     display: none;
-    height: 60px;
-    justify-content: center;
-    width: 100%;
+    flex-direction: column;
+
+    .mobile-inner {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        height: 70px;
+
+        button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            margin: 0;
+            transform: translateY(-50%);
+
+            width: 3rem;
+            height: 3rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: white;
+            // border: 3px solid $theme_interest;
+            border-radius: 0;
+
+            div > div {
+                width: 35px;
+                height: 4px;
+                background-color: $theme_primary;
+                margin: 6px 0;
+                padding: 0 4px;
+            }
+        }
+    }
+
+    .mobile-menu {
+        background-color: white;
+        position: absolute;
+        top: 70px;
+        width: 100%;
+        box-shadow: 0 2px 3px -2px rgba(0,0,0,.2);
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin: 1rem 0;
+        }
+
+        .nav-signup .login {
+            margin: 0;
+            justify-content: start;
+        }
+    }
+
 }
 
 

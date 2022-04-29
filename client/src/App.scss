@@ -9,6 +9,10 @@ html, body {
     height: 100%;
 }
 
+body {
+    overflow: scroll; /* Show scrollbars */
+}
+
 a {
     text-decoration: none;
     color: black;
