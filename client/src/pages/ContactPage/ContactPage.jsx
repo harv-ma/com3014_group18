@@ -1,6 +1,5 @@
 import React from "react";
 import Reeds from "../../components/svgs/Reeds";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./ContactPage.scss";
 
 const ContactPage = () => {
