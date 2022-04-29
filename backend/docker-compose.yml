@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+  serviceregistry:
+    build: service-registry/
+    image: indireed/service-registry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: "exit 0"
+
+  cloudgateway:
+    build: cloud-gateway/
+    image: indireed/cloud-gateway
+    container_name: cloud-gateway
+    ports:
+      - "9000:9000"
+    depends_on:
+      serviceregistry:
+        condition: service_healthy
+    restart: on-failure
+
+  userservice:
+    build: user-service/
+    image: indireed/user-service
+    container_name: user-service
+    ports:
+      - "9001:9001"
+    depends_on:
+      serviceregistry:
+        condition: service_healthy
+      userservicedb:
+        condition: service_healthy
+    restart: on-failure  
+
+  userservicedb:
+    image: postgres
+    container_name: userservicedb
+    environment:
+      - POSTGRES_USER=group18
+      - POSTGRES_PASSWORD=group18
+      - POSTGRES_DB=users
+    volumes:
+      - userservicedbdata:/var/lib/postgresql/data
+    healthcheck:
+       test: "exit 0"
+
+  jobservice:
+    build: job-service/
+    image: indireed/job-service
+    container_name: job-service
+    ports:
+      - "9002:9002"
+    depends_on:
+      serviceregistry:
+        condition: service_healthy
+      jobservicedb:
+        condition: service_healthy
+    restart: on-failure
+
+  jobservicedb:
+    image: postgres
+    container_name: jobservicedb
+    environment:
+      - POSTGRES_USER=group18
+      - POSTGRES_PASSWORD=group18
+      - POSTGRES_DB=jobs
+    volumes:
+      - jobservicedbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: "exit 0"
+
+  applicationservice:
+    build: application-service/
+    image: indireed/application-service
+    container_name: application-service
+    ports:
+      - "9003:9003"
+    depends_on:
+      serviceregistry:
+        condition: service_healthy
+      applicationservicedb:
+        condition: service_healthy
+    restart: on-failure
+
+  applicationservicedb:
+    image: postgres
+    container_name: applicationservicedb
+    environment:
+      - POSTGRES_USER=group18
+      - POSTGRES_PASSWORD=group18
+      - POSTGRES_DB=applications
+    volumes:
+      - applicationservicedbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: "exit 0"
+
+
+volumes:
+  userservicedbdata:
+  jobservicedbdata:
+  applicationservicedbdata:
