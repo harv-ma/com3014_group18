@@ -14,9 +14,8 @@ const router = () => {
       <Route path="/" exact element={<Homepage />} />
       <Route path="/search" exact element={<JobList />} />
       <Route path="/jobs/:job_id" exact element={<JobPage />} />
+      <Route path="/contact" exact element={<ContactPage />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="/contact" element={<ContactPage />} />
-
     </Routes>
   );
 };
