@@ -14,7 +14,8 @@ a {
     color: black;
 
     &:hover {
-        text-decoration: underline;
+        text-decoration: none;
+        color: inherit;
     }
 }
 
