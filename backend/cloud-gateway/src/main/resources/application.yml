@@ -1,0 +1,27 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: CLOUD-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            Path=/users/**
+        - id: JOB-SERVICE
+          uri: lb://JOB-SERVICE
+          predicates:
+            Path=/jobs/**
+        - id: APPLICATION-SERVICE
+          uri: lb://APPLICATION-SERVICE
+          predicates:
+            Path=/applications/**
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://serviceregistry:8761/eureka
