@@ -54,9 +54,9 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Employer details must be provided");
 
         if (request.getUserType().equals(UserType.EMPLOYER))
-            request.setEmployer(null);
-        else
             request.setCandidate(null);
+        else
+            request.setEmployer(null);
 
         User user = new ModelMapper().map(request, User.class);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
