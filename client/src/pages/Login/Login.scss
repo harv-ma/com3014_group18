@@ -1,0 +1,93 @@
+@import "../../variables.scss";
+
+.login-container {
+    width: 100%;
+    height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+}
+
+.tab-container {   
+    max-width: 300px;
+    min-height: 300px;
+    width: 100%;
+    margin: 0 auto;
+
+    background-color: white;
+
+    box-shadow: 0 2px 5px 1px rgba(0,0,0,.2);
+}
+
+.tabs {
+    display: flex;
+
+    div {
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(246, 246, 246);
+        color: rgba(158, 219, 171, 0.7);
+        flex: 1;
+        font-weight: bold;
+
+        user-select: none;
+        cursor: pointer;
+
+        &.login-shadow {
+            box-shadow:     inset -7px 0 9px -7px rgba(0,0,0,.2), 
+                            inset  0 -10px 10px -10px rgba(0,0,0,.2);
+        }
+
+        &.register-shadow {
+            box-shadow:     inset 7px 0 9px -7px rgba(0,0,0,.2), 
+                            inset  0 -10px 10px -10px rgba(0,0,0,.2);
+        }
+
+        &:hover {
+            background-color: rgb(234, 234, 234);
+            color: $theme_primary;
+        }
+
+
+        &.selected {
+            background-color: white;
+            color: $theme_primary;
+            box-shadow: unset;
+        }
+    }
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+
+    &>div {
+        max-width: 220px;
+    }
+
+    button {
+        border-radius: 15px;
+        width: 100%;
+    }
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+
+    &>div {
+        max-width: 220px;
+    }
+
+    button {
+        border-radius: 15px;
+        width: 100%;
+    }
+}
+
+.login-reeds {}
