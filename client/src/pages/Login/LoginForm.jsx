@@ -1,15 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Input from "../../components/system-ui/Input/Input";
+
+const login = (state) => {
+  console.log("Loggin in...", state);
+};
 
 const LoginForm = () => {
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const inputUpdate = (e) => {
+    setState({ ...state, [e.target.id]: e.target.value });
+  };
+
   return (
     <div className="login-form">
       <div>
-        <label htmlFor="email">Email Address</label>
-        <input id="email" placeholder="Email Address"></input>
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" placeholder="Password"></input>
-        <button id="submit">Login</button>
+        <Input
+          id="email"
+          label="Email Address"
+          placeholder="Email Address"
+          callback={inputUpdate}
+        />
+        <Input
+          id="password"
+          label="Password"
+          placeholder="Password"
+          callback={inputUpdate}
+        />
+        <button id="submit" onClick={() => login(state)}>
+          Login
+        </button>
       </div>
     </div>
   );

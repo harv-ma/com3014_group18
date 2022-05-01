@@ -1,18 +1,17 @@
 @import "../../variables.scss";
 
 .login-container {
-    display: flex;
     width: 100%;
     height: calc(100vh - 80px);
-
-    justify-content: center;
+    display: flex;
     align-items: center;
 }
 
-.tab-container {
+.tab-container {   
     max-width: 300px;
     min-height: 500px;
     width: 100%;
+    margin: 0 auto;
 
     background-color: white;
 
@@ -69,16 +68,8 @@
         max-width: 220px;
     }
 
-    input {
-        width: 100%;
-    }
-
     button {
         border-radius: 15px;
-        width: 100%;
-    }
-
-    label {
         width: 100%;
     }
 }
@@ -93,16 +84,8 @@
         max-width: 220px;
     }
 
-    input {
-        width: 100%;
-    }
-
     button {
         border-radius: 15px;
-        width: 100%;
-    }
-
-    label {
         width: 100%;
     }
 }
