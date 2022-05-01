@@ -1,24 +1,59 @@
 import React, { useState } from "react";
+import Input from "../../components/system-ui/Input/Input";
+
+const register = (state) => {
+  console.log("Registering...", state);
+};
 
 const RegisterForm = () => {
+  const [state, setState] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const inputUpdate = (e) => {
+    setState({ ...state, [e.target.id]: e.target.value });
+  };
+
   return (
     <div className="register-form">
       <div>
-        <label htmlFor="first-name">First Name *</label>
-        <input id="first-name" placeholder="First Name"></input>
-        <label htmlFor="last-name">Last Name *</label>
-        <input id="last-name" placeholder="Last Name"></input>
-        <label htmlFor="email">Email Address *</label>
-        <input id="email" type="email" placeholder="Email Address"></input>
-        <label htmlFor="password">New Password *</label>
-        <input id="password" type="password" placeholder="Password"></input>
-        <label htmlFor="confirm-password">Confirm Password *</label>
-        <input
-          id="confirm-password"
-          type="password"
+        <Input
+          id="first_name"
+          label="First Name *"
+          placeholder="First Name"
+          callback={inputUpdate}
+        />
+        <Input
+          id="last_name"
+          label="Last Name *"
+          placeholder="Last Name"
+          callback={inputUpdate}
+        />
+        <Input
+          id="email"
+          label="Email Address *"
+          placeholder="Email Address"
+          callback={inputUpdate}
+        />
+        <Input
+          id="password"
+          label="New Password *"
+          placeholder="Password"
+          callback={inputUpdate}
+        />
+        <Input
+          id="confirm_password"
+          label="Confirm Password *"
           placeholder="Confirm Password"
-        ></input>
-        <button id="submit">Register</button>
+          callback={inputUpdate}
+        />
+        <button id="submit" onClick={() => register(state)}>
+          Register
+        </button>
       </div>
     </div>
   );
