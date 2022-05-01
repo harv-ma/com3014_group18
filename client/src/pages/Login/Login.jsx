@@ -4,6 +4,7 @@ import "./Login.scss";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Reeds from "../../components/svgs/Reeds";
+import { Link } from "react-router-dom";
 
 const Login = ({ register }) => {
   register = register ? "register" : "login";
@@ -34,6 +35,10 @@ const Login = ({ register }) => {
           </nav>
           <div className="form">
             {tab == "login" ? <LoginForm /> : <RegisterForm />}
+          </div>
+          <div className="business-text">
+            <p>Are you a business owner?</p>
+            <Link to="/">{"Employer Area"}</Link>
           </div>
         </div>
       </div>

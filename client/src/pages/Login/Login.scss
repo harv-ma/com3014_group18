@@ -90,4 +90,19 @@
     }
 }
 
-.login-reeds {}
+.business-text {
+    text-align: center;
+    padding-bottom: 1.5rem;
+
+
+    p {
+        font-size: 9pt;
+        font-weight: bold;
+        margin: 0;
+    }
+    
+    a {
+        color: $theme_primary;
+        font-size: 9pt;
+    }
+}
