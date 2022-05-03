@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 public class UserUpdateDto {
     private String email;
     private String phoneNumber;
-    @NotNull
     private CandidateUpdateDto candidate;
-    @NotNull
     private EmployerUpdateDto employer;
 }

@@ -22,8 +22,8 @@ public class Candidate {
     @Id
     @GeneratedValue
     private UUID id;
-    @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @OneToOne(optional = false)
+    @JoinColumn(referencedColumnName = "id", nullable = false)
     private User user;
     private String firstName;
     private String lastName;

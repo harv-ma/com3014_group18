@@ -57,7 +57,7 @@ public class CustomExceptionHandler {
 
  @ExceptionHandler(Exception.class)
  public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-  System.out.println(ex.getLocalizedMessage());
+  ex.printStackTrace();
   ErrorResponse error = new ErrorResponse("server_error","Oops! We messed up :( please try again or contact our support team for assistance");
   return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
  }
