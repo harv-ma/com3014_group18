@@ -5,6 +5,8 @@ import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.exceptions.BadRequestException;
 import com.indireed.userservice.exceptions.ConflictException;
 import com.indireed.userservice.exceptions.ResourceNotFoundException;
+import com.indireed.userservice.models.Candidate;
+import com.indireed.userservice.models.Employer;
 import com.indireed.userservice.models.PasswordReset;
 import com.indireed.userservice.models.User;
 import com.indireed.userservice.repositories.CandidateRepository;
@@ -53,13 +55,22 @@ public class UserServiceImpl implements UserService {
         if (request.getUserType().equals(UserType.EMPLOYER) && request.getEmployer() == null)
             throw new BadRequestException("Employer details must be provided");
 
-        if (request.getUserType().equals(UserType.EMPLOYER))
-            request.setCandidate(null);
-        else
-            request.setEmployer(null);
-
         User user = new ModelMapper().map(request, User.class);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+
+        if (request.getUserType().equals(UserType.EMPLOYER)) {
+            Employer employer = new ModelMapper().map(request.getEmployer(), Employer.class);
+            user.setCandidate(null);
+            user.setEmployer(employer);
+        }
+
+        if (request.getUserType().equals(UserType.CANDIDATE)) {
+            Candidate candidate = new ModelMapper().map(request.getCandidate(), Candidate.class);
+            user.setEmployer(null);
+            user.setCandidate(candidate);
+        }
+
         user = userRepository.save(user);
         return new ModelMapper().map(user, UserDetailDto.class);
     }

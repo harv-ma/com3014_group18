@@ -21,8 +21,6 @@ public class CreateUserDto {
     private String phoneNumber;
     @NotNull
     private UserType userType;
-    @NotNull
     private CreateCandidateDto candidate;
-    @NotNull
     private CreateEmployerDto employer;
 }
