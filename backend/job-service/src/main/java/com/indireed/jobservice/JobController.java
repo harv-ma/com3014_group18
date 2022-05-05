@@ -39,7 +39,7 @@ public class JobController {
         return ResponseEntity.ok(jobService.delete(id));
     }
 
-    @DeleteMapping(value = "")
+    @GetMapping(value = "")
     public ResponseEntity<Page<JobDetailDto>> getAll(@RequestParam(value = "page") int page,
                                                      @RequestParam(value = "size") int size,
                                                      @RequestParam(value = "query") String query) {
