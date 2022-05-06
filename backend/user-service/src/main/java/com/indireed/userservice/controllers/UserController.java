@@ -19,6 +19,11 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
+    @PostMapping(value="login")
+    public ResponseEntity<TokenResponseDTO> login(@RequestBody @Valid LoginDTO request) {
+        return ResponseEntity.ok(userService.login(request));
+    }
+
     @PostMapping(value="")
     public ResponseEntity<UserDetailDto> createUser(@RequestBody @Valid CreateUserDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
