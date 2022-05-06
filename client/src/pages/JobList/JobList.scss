@@ -14,6 +14,7 @@
   flex-direction: row;            /* default value; can be omitted */
   flex-wrap: nowrap;              /* default value; can be omitted */
   justify-content: space-between; /* switched from default (flex-start) */
+  align-items: baseline;
 }
 
 #container > div {
@@ -33,8 +34,8 @@
     flex-direction: row;
     background-color: white;
     justify-content: space-around;
-    padding: 1rem 1.5rem 0.2rem 1.5rem;
-
+    padding: .5rem 1.5rem 0.5rem 1.5rem;
+    align-items: center;
     border-radius: 12px;
     border: 2px solid $theme_grey;
     margin: 0 auto;

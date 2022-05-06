@@ -1,21 +1,19 @@
 import React from "react";
 import Reeds from "../../components/svgs/Reeds";
-import { Accordion, Button} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Accordion } from "react-bootstrap";
 import "./JobList.scss";
 
 const JobList = () => {
     return (
         <main id="joblist">
             <Reeds />
-            <p>This is the Job search page!</p>
             <div className="search">
                 <div className="inner">
                     <label className="searchTitle">Job Title</label>
                     <input placeholder="Teacher"></input>
                     <label className="searchTitle">Around</label>
                     <input placeholder="Guildford"></input>
-                    <button type="button" className="btn btn-primary">Search Now!</button>
+                    <button type="button" to="/search">Search Now!</button>
                 </div>
             </div>
             <p></p>
@@ -38,6 +36,8 @@ const JobList = () => {
                             velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                             cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                             est laborum.
+                            <p></p>
+                            <button>See more</button>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
