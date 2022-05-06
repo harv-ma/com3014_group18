@@ -32,6 +32,8 @@ services:
         condition: service_healthy
       userservicedb:
         condition: service_healthy
+      keycloak:
+        condition: service_healthy
     restart: on-failure  
 
   userservicedb:
@@ -56,6 +58,8 @@ services:
       serviceregistry:
         condition: service_healthy
       jobservicedb:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     restart: on-failure
 
@@ -82,6 +86,8 @@ services:
         condition: service_healthy
       applicationservicedb:
         condition: service_healthy
+      keycloak:
+        condition: service_healthy
     restart: on-failure
 
   applicationservicedb:
@@ -96,8 +102,45 @@ services:
     healthcheck:
       test: "exit 0"
 
+  keycloak:
+    platform: linux/amd64
+    image: quay.io/keycloak/keycloak:18.0.0
+    container_name: keycloak
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://keycloakdb/keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=password
+    ports:
+      - "9004:8080"
+    depends_on:
+      keycloakdb:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: "exit 0"
+
+  keycloakdb:
+    image: postgres
+    container_name: keycloakdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    volumes:
+      - keycloakdbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: "exit 0"
+
 
 volumes:
   userservicedbdata:
   jobservicedbdata:
   applicationservicedbdata:
+  keycloakdbdata:
