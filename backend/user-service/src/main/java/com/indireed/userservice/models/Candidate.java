@@ -22,7 +22,9 @@ public class Candidate {
     @Id
     @GeneratedValue
     private UUID id;
-    private UUID userId;
+    @OneToOne(optional = false)
+    @JoinColumn(referencedColumnName = "id", nullable = false)
+    private UserProfile userProfile;
     private String firstName;
     private String lastName;
     private String occupation;

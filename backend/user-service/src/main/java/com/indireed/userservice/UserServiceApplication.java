@@ -20,11 +20,6 @@ public class UserServiceApplication {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     @LoadBalanced
     RestTemplate restTemplate() {
         return new RestTemplate();

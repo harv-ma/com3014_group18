@@ -21,7 +21,9 @@ public class Employer {
     @Id
     @GeneratedValue
     private UUID id;
-    private UUID userId;
+    @OneToOne(optional = false)
+    @JoinColumn(referencedColumnName = "id", nullable = false)
+    private UserProfile userProfile;
     private String companyName;
     @Column(columnDefinition = "TEXT")
     private String description;
