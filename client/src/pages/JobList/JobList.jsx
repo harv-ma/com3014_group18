@@ -1,6 +1,6 @@
 import React from "react";
 import Reeds from "../../components/svgs/Reeds";
-import { Accordion, Button } from "react-bootstrap";
+import { Accordion} from "react-bootstrap";
 import "./JobList.scss";
 
 const JobList = () => {
@@ -12,11 +12,12 @@ const JobList = () => {
         <div className="inner">
           <label className="searchTitle">Job Title</label>
           <input placeholder="Teacher"></input>
-          <label className="searchTitle">Around</label>
+          <div className="itemhidden"></div>
+          <label className="searchTitle">Location⠀</label>
           <input placeholder="Guildford"></input>
-          <button type="button" className="btn btn-primary">
-            Search Now!
-          </button>
+          <div className="itemhidden"></div>
+          <button className="button" type="button">Search</button>
+          <div className="itemhidden"></div>
         </div>
       </div>
       <p></p>
@@ -39,6 +40,8 @@ const JobList = () => {
               reprehenderit in voluptate velit esse cillum dolore eu fugiat
               nulla pariatur. Excepteur sint occaecat cupidatat non proident,
               sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <br></br>
+              <button className="buttonAccordion">See job details</button>
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="1">
@@ -58,6 +61,8 @@ const JobList = () => {
               reprehenderit in voluptate velit esse cillum dolore eu fugiat
               nulla pariatur. Excepteur sint occaecat cupidatat non proident,
               sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <br></br>
+              <button className="buttonAccordion">See job details</button>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

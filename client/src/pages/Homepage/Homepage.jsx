@@ -36,7 +36,7 @@ const Homepage = () => {
             <input placeholder="Teacher"></input>
             <label>Around</label>
             <input placeholder="Guildford"></input>
-            <button>Search Now!</button>
+            <button className="button">Search Now!</button>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ const EmployerArea = () => {
         <div className="subtitle">Phone Number: (Phone Number)</div>
         <div className="subtitle">Website: (Website)</div>
       </div>
-      <div><button>Update Details</button></div>
+      <div><button className="buttonDetails">Update Details</button></div>
     </div>
     <div className="title">Company Description</div>
     <div>
@@ -49,9 +49,8 @@ const EmployerArea = () => {
                     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                     est laborum.
-                    <p></p>
-                    <button>Edit Job</button>
-                    <p></p>
+                    <br></br>
+                    <button className="buttonAccordion">Edit Job</button>
                     <div className="ApplicantsAccordion">
                         <Accordion defaultActiveKey="0">
                             <Accordion.Item eventKey="0">
@@ -69,8 +68,8 @@ const EmployerArea = () => {
                                     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
-                                    <p></p>
-                                    <button>See application</button>
+                                    <br></br>
+                                    <button className="buttonAccordion">See applicant</button>
                                 </Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="1">
@@ -88,8 +87,8 @@ const EmployerArea = () => {
                                     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
-                                    <p></p>
-                                    <button>See application</button>
+                                    <br></br>
+                                    <button className="buttonAccordion">See applicant</button>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
@@ -114,9 +113,8 @@ const EmployerArea = () => {
                 cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                 est laborum.
 
-                <p></p>
-                <button>Edit Job</button>
-                <p></p>
+                <br></br>
+                <button className="buttonAccordion">Edit Job</button>
 
                 <div className="ApplicantsAccordion">
                         <Accordion defaultActiveKey="0">
@@ -135,8 +133,8 @@ const EmployerArea = () => {
                                     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
-                                    <p></p>
-                                    <button>See application</button>
+                                    <br></br>
+                                    <button className="buttonAccordion">See application</button>
                                 </Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="1">
@@ -154,8 +152,8 @@ const EmployerArea = () => {
                                     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
-                                    <p></p>
-                                    <button>See application</button>
+                                    <br></br>
+                                    <button className="buttonAccordion">See application</button>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
