@@ -30,7 +30,7 @@ const LoginForm = () => {
           placeholder="Password"
           callback={inputUpdate}
         />
-        <button id="submit" onClick={() => login(state)}>
+        <button className="button" id="submit" onClick={() => login(state)}>
           Login
         </button>
       </div>

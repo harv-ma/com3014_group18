@@ -51,7 +51,7 @@ const RegisterForm = () => {
           placeholder="Confirm Password"
           callback={inputUpdate}
         />
-        <button id="submit" onClick={() => register(state)}>
+        <button className="button" id="submit" onClick={() => register(state)}>
           Register
         </button>
       </div>

@@ -22,23 +22,48 @@
 
 .searchTitle {
   font-size: large;
+  width:40rem;
 }
 
 .search {
   display: flex;
   flex-direction: row;
-  
-  .inner {
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    justify-content: space-around;
-    padding: 1rem 1.5rem 0.2rem 1.5rem;
+  flex-wrap: nowrap;
+  height: 5rem;
+}
 
-    border-radius: 12px;
-    border: 2px solid $theme_grey;
-    margin: 0 auto;
-    flex-basis: auto;
-    width: 50rem;
+.inner {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  justify-content: space-around;
+  padding: 1rem 1.5rem 0.2rem 1.5rem;
+
+  border-radius: 12px;
+  border: 2px solid $theme_grey;
+  margin: 0 auto;
+  flex-basis: auto;
+  width: 50rem;
+}
+
+.itemhidden{
+  min-width: 10px;
+  flex-grow: 1;
+  border: 1px solid transparent;
+}
+
+.button {
+  margin:0;
+  height: 2.7rem;
+  border-radius: 10px;
+  background-color: $theme_interest;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+
+  &:hover {
+    background-color: $theme_secondary;
   }
+
+  cursor: pointer;
 }
