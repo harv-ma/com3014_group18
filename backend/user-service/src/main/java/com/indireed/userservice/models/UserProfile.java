@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user_profiles")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,12 +20,16 @@ public class UserProfile {
     @Id
     @GeneratedValue
     private UUID id;
-    private UUID userId;
+    private String userId;
     private String avatarUrl;
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
+    private Employer employer;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
+    private Candidate candidate;
     @Column(updatable=false)
     @CreationTimestamp
     private Date dateCreated;
