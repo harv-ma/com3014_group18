@@ -24,3 +24,10 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://serviceregistry:8761/eureka
+
+
+keycloak:
+  auth-server-url: http://keycloak:9004/auth
+  realm: group18
+  resource: user-service
+  public-client: true

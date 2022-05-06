@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 public interface UserService {
+    TokenResponseDTO login(LoginDTO request);
     UserDetailDto createUser(CreateUserDto request);
     MessageResponseDto uploadAvatar(MultipartFile file);
     UserDetailDto getProfile();
