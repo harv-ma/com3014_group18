@@ -4,10 +4,12 @@ import com.indireed.userservice.dtos.*;
 import com.indireed.userservice.enums.UserType;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
 import java.util.UUID;
 
 public interface UserService {
-    TokenResponseDTO login(LoginDTO request);
+    HashMap login(LoginDTO request);
     UserDetailDto createUser(CreateUserDto request);
     MessageResponseDto uploadAvatar(MultipartFile file);
     UserDetailDto getProfile();
@@ -17,5 +19,10 @@ public interface UserService {
     Page<UserDetailDto> getAllByUserType(int page, int size, UserType userType, String query);
     MessageResponseDto changePassword(ChangePasswordDto request);
     MessageResponseDto sendPasswordReset(SendPasswordResetDto request);
-    MessageResponseDto resetPassword(String token, ResetPasswordDto request);
+
+    // String userId = request.getUserPrincipal().getName();
+    // KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken)
+    // request.getUserPrincipal();
+    // System.out.println("SHALOM1: " +
+    // principal.getAccount().getKeycloakSecurityContext().getToken().getSubject());
 }

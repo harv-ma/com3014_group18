@@ -27,7 +27,6 @@ public class UserProfile {
     private UserType userType;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
     private Employer employer;
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
     private Candidate candidate;
     @Column(updatable=false)

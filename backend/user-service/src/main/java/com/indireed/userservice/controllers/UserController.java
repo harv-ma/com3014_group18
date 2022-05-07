@@ -4,13 +4,17 @@ import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.services.UserService;
 import com.indireed.userservice.dtos.*;
 import lombok.AllArgsConstructor;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.UUID;
 
 @RestController
@@ -20,7 +24,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(value="login")
-    public ResponseEntity<TokenResponseDTO> login(@RequestBody @Valid LoginDTO request) {
+    public ResponseEntity<HashMap> login(@RequestBody @Valid LoginDTO request) {
         return ResponseEntity.ok(userService.login(request));
     }
 
@@ -35,7 +39,12 @@ public class UserController {
     }
 
     @GetMapping(value="profile")
-    public ResponseEntity<UserDetailDto> getProfile() {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UserDetailDto> getProfile(HttpServletRequest request) {
+//        KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request.getUserPrincipal();
+//        String userId = principal.getAccount().getKeycloakSecurityContext().getIdToken().getSubject();
+//        System.out.println(userId);
+        System.out.println("Work");
         return ResponseEntity.ok(userService.getProfile());
     }
 
@@ -70,11 +79,5 @@ public class UserController {
     @PostMapping(value="password-reset/send")
     public ResponseEntity<MessageResponseDto> sendPasswordReset(@RequestBody @Valid SendPasswordResetDto request) {
         return ResponseEntity.ok(userService.sendPasswordReset(request));
-    }
-
-    @PostMapping(value="reset-token/{token}")
-    public ResponseEntity<MessageResponseDto> resetPassword(@PathVariable(value="token") String token,
-                                                            @RequestBody @Valid ResetPasswordDto request) {
-        return ResponseEntity.ok(userService.resetPassword(token, request));
     }
 }
