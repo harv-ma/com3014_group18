@@ -52,7 +52,7 @@ const EmployerArea = () => {
                     <br></br>
                     <button className="buttonAccordion">Edit Job</button>
                     <div className="ApplicantsAccordion">
-                        <Accordion defaultActiveKey="0">
+                        <Accordion defaultActiveKey="0" alwaysOpen>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>
                                     <div id="container">
@@ -69,7 +69,11 @@ const EmployerArea = () => {
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
                                     <br></br>
-                                    <button className="buttonAccordion">See applicant</button>
+                                    <div id="container">
+                                        <button className="buttonAccordion">See applicant</button>
+                                        <button className="buttonConfirm">Accept</button>
+                                        <button className="buttonDeny">Deny</button>
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="1">
@@ -88,12 +92,15 @@ const EmployerArea = () => {
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
                                     <br></br>
-                                    <button className="buttonAccordion">See applicant</button>
+                                    <div id="container">
+                                        <button className="buttonAccordion">See applicant</button>
+                                        <button className="buttonConfirm">Accept</button>
+                                        <button className="buttonDeny">Deny</button>
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
                     </div>
-
                 </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
@@ -134,7 +141,11 @@ const EmployerArea = () => {
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
                                     <br></br>
-                                    <button className="buttonAccordion">See application</button>
+                                    <div id="container">
+                                        <button className="buttonAccordion">See applicant</button>
+                                        <button className="buttonConfirm">Accept</button>
+                                        <button className="buttonDeny">Deny</button>
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="1">
@@ -153,7 +164,11 @@ const EmployerArea = () => {
                                     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est laborum.
                                     <br></br>
-                                    <button className="buttonAccordion">See application</button>
+                                    <div id="container">
+                                        <button className="buttonAccordion">See applicant</button>
+                                        <button className="buttonConfirm">Accept</button>
+                                        <button className="buttonDeny">Deny</button>
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
