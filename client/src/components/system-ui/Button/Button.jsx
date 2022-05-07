@@ -3,14 +3,18 @@ import "./Button.scss";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const Button = ({ label, to }) => {
+const Button = ({ label, to, callback }) => {
   const navigate = useNavigate();
 
   return (
     <button
       className="button"
-      onClick={() => {
-        navigate(to);
+      onClick={(e) => {
+        if (to) {
+          navigate(to);
+        } else {
+          callback();
+        }
       }}
     >
       {label}
@@ -21,6 +25,7 @@ const Button = ({ label, to }) => {
 Button.propTypes = {
   label: PropTypes.string,
   to: PropTypes.string,
+  callback: PropTypes.func,
 };
 
 export default Button;

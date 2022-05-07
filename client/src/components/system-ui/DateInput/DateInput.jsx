@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import "./Input.scss";
 
-const Input = ({ label, id, placeholder, callback, required }) => {
+export default function DateInput({ label, id, placeholder, callback }) {
   return (
     <>
       <label className="input-label" htmlFor={id}>
         {label}
-        {required && "*"}
       </label>
       <input
         key={id}
+        type="date"
         className="input-input"
         id={id}
         placeholder={placeholder}
@@ -18,14 +17,11 @@ const Input = ({ label, id, placeholder, callback, required }) => {
       ></input>
     </>
   );
-};
+}
 
-Input.propTypes = {
+DateInput.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
   placeholder: PropTypes.string,
   callback: PropTypes.func,
-  required: PropTypes.bool,
 };
-
-export default Input;
