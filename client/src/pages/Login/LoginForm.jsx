@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/system-ui/Input/Input";
+import Client from "../../helpers/Client";
 
 const login = (state) => {
-  console.log("Loggin in...", state);
+  Client.get("/jobs?page=0&size=10&query=and")
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 };
 
 const LoginForm = () => {

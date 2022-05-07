@@ -8,6 +8,7 @@ import Profile from "../pages/Profile/Profile";
 import ContactPage from "../pages/ContactPage/ContactPage";
 import Login from "../pages/Login/Login";
 import EmployerArea from "../pages/EmployerArea/EmployerArea";
+import CreateJob from "../pages/CreateJob/CreateJob";
 
 const router = () => {
   return (
@@ -18,6 +19,7 @@ const router = () => {
       <Route path="/" exact element={<Homepage />} />
       <Route path="/employer-area" exact element={<EmployerArea />} />
       <Route path="/search" exact element={<JobList />} />
+      <Route path="/jobs/create" exact element={<CreateJob />} />
       <Route path="/jobs/:job_id" exact element={<JobPage />} />
       <Route path="/contact" exact element={<ContactPage />} />
       <Route path="*" element={<NotFound />} />
