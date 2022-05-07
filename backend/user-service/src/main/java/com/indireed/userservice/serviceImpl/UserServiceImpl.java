@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
-import static com.indireed.userservice.config.KeycloakClientConfig.getKeyCloak;
+import static com.indireed.userservice.config.KeycloakAdminClientConfig.getKeyCloak;
 
 @Service
 @RequiredArgsConstructor
