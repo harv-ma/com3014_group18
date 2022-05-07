@@ -22,14 +22,14 @@ public class Candidate {
     @Id
     @GeneratedValue
     private UUID id;
-    @OneToOne(optional = false)
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
     private UserProfile userProfile;
     private String firstName;
     private String lastName;
     private String occupation;
     @Enumerated(EnumType.STRING)
-    private JobSearchStatus jobSearchStatus;
+    private JobSearchStatus jobSearchStatus = JobSearchStatus.ACTIVELY_APPLYING;
     @Column(columnDefinition = "TEXT")
     private String bio;
     private String resumeUrl;
