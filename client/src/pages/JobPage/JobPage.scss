@@ -6,52 +6,25 @@
 }
 
 .sticky-title {
-    position: sticky;
-    top: 60px;
-    background-color: red;
-}
 
-.job-content {
+    display: flex;
+    justify-content: space-between;
 
-    h2 {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    margin-top: 5rem;
 
-        span {
-            flex-shrink: 0;
-            padding-right: 1rem;
-        }
-        button {
-            width: 14rem;
-            margin: 0;
-        }
+    button {
+        width: auto;
+        width: 170px;
     }
+    
 
 
     @media only screen and (max-width: $container-sm) {
-        &__title {
-            h2 {
-                display: block;
-                text-align: center;
-                
-                span {
-                    flex-shrink: 0;
-                    padding-right: 1rem;
-                }
-
-                button {
-                    display: block;
-                    width: 100%;
-                    margin-top: 2rem;
-                }
-            }
-        }
+       
     }
 }
 
-.job-quick-details {    
-
+.job-quick-details {   
     ul {
         list-style: none;
         padding: 0;
@@ -64,6 +37,7 @@
         border: 2px solid $theme_primary;
         border-radius: 20px;
         padding: 1.3rem;
+        width: 100%;
 
         li {
             margin: 10px 0;
@@ -76,8 +50,8 @@
 }
 
 .job-container {
-    display: flex;
-    padding-top: 4rem;
+    padding-top: 1rem;
+    width: 100%;
 }
 
 .related-jobs {
@@ -85,4 +59,8 @@
     height: 220px;
     background-color: $theme_light_grey;
     margin-top: 90px;
+}
+
+.job-content__description {
+    white-space: pre-line;
 }

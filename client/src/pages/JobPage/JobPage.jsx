@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./JobPage.scss";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../components/system-ui/Button/Button";
 import Share from "../../components/system-ui/Share/Share";
+import Client from "../../helpers/Client";
 
 const JobPage = () => {
   const { job_id } = useParams();
 
+  const [state, setState] = useState();
+
+  const getJob = () => {
+    return Client.get("/jobs/" + job_id)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    getJob().then((data) => setState(data));
+  }, []);
+
+  console.log("state", state);
+
+  if (!state) {
+    return "Error loading page";
+  }
+
   return (
     <main id="jobpage">
       <h2 className="sticky-title">
-        <span>Software Engineer (Full-time)</span>{" "}
+        <span>{state?.position}</span>
         <Button label="Apply Now" to="/" />
       </h2>
       <div className="job-container">
@@ -29,13 +50,16 @@ const JobPage = () => {
             <div className="job-quick-details__container">
               <ul>
                 <li>
-                  Salary <span>£65,000 per annum</span>
+                  Salary <span>£{state?.salary} per annum</span>
                 </li>
                 <li>
-                  Where <span>Central London</span>
+                  Where <span>{state?.location}</span>
                 </li>
                 <li>
-                  Type <span>Permanent</span>
+                  Type{" "}
+                  <span>
+                    {state?.jobType == "FULL_TIME" ? "Full Time" : "Part Time"}
+                  </span>
                 </li>
                 <li>
                   Date Posted <span>8th March 2022</span>
@@ -44,80 +68,10 @@ const JobPage = () => {
               {/* <Share className="job-quick-details__share" /> */}
             </div>
           </div>
-          <div className="job-content__description">
-            <p>
-              Leading FinTech has an opportunity for a Software Integration
-              Engineer to develop interfaces and integrations for new and
-              existing client solutions. You&apos;ll gain exposure to new
-              technology, work directly with clients and the development team,
-              and have an oversight of all areas of automation and integration.
-            </p>
-            <p>
-              The job comes with a starting salary of £65K p.a. with generous
-              benefits, including a bonus, flexible working, rising pension
-              contribution, 25 days holiday (with an option to buy/sell up to 5
-              days), and income protection, medical insurance etc.
-            </p>
-            <p>
-              This would suit a support analyst or engineer with good SQL skills
-              and the desire to interconnect systems and automate processes.
-            </p>
-            <p>
-              <strong>
-                Required skills and experience as Software Integration Engineer
-              </strong>
-            </p>
-            <p>
-              SQL to an advanced level in terms of data manipulation and
-              management Programming skills in any OOP, such as C#, Java, Python
-              etc. Know how to create, read, and edit XML documents
-            </p>
-            <p>
-              <strong>
-                Primary responsibilities as Software Integration Engineer
-              </strong>
-            </p>
-            <p>
-              Design and development of automated solutions to improve
-              efficiencies and reduce errors Participate in the Site Reliability
-              Engineering process Implement monitoring for key business
-              processes and metrics Implement solutions to the production
-              environment Collaborate with internal teams to support the
-              implementation of your solution
-            </p>
-            <p>
-              <strong>
-                What&apos;s on offer as Software Integration Engineer
-              </strong>
-            </p>
-            <ul>
-              <li>
-                Use new and innovative technologies and tools and develop your
-                skills
-              </li>
-              <li>
-                A technology innovator with an enviable reputation for
-                innovation, market position, and growth
-              </li>
-              <li>
-                Generous remuneration and impressive earning potential through
-                the discretionary bonus
-              </li>
-              <li>
-                A positive culture and great team spirit Career progression
-              </li>
-            </ul>
-            <p>
-              <strong>Working hours are Monday to Friday, 9am to 5.30pm</strong>
-            </p>
-            <p>
-              For more information on how we process your data, see our privacy
-              notice at www.lead-search.co.uk
-            </p>
-          </div>
+          <div className="job-content__description">{state?.description}</div>
         </div>
       </div>
-      <div className="related-jobs">Hi</div>
+      {/* <div className="related-jobs">Hi</div> */}
     </main>
   );
 };
