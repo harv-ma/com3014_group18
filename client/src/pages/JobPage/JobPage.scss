@@ -24,8 +24,7 @@
     }
 }
 
-.job-quick-details {    
-
+.job-quick-details {   
     ul {
         list-style: none;
         padding: 0;
@@ -38,6 +37,7 @@
         border: 2px solid $theme_primary;
         border-radius: 20px;
         padding: 1.3rem;
+        width: 100%;
 
         li {
             margin: 10px 0;
@@ -50,8 +50,8 @@
 }
 
 .job-container {
-    display: flex;
-    padding-top: 1rem
+    padding-top: 1rem;
+    width: 100%;
 }
 
 .related-jobs {
@@ -59,4 +59,8 @@
     height: 220px;
     background-color: $theme_light_grey;
     margin-top: 90px;
+}
+
+.job-content__description {
+    white-space: pre-line;
 }
