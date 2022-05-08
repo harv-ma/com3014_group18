@@ -1,4 +1,4 @@
-package com.indireed.applicationservice;
+package com.indireed.applicationservice.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
