@@ -160,6 +160,12 @@ public class UserServiceImpl implements UserService {
 //        userUpdate.setEmail(request.getEmail());
 //        getKeyCloak().realm(realmName).users().get(userId.toString()).update(userUpdate);
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile.getUserType().equals(UserType.EMPLOYER)) {
+            userProfile.setCandidate(null);
+        }
+        if (userProfile.getUserType().equals(UserType.CANDIDATE)) {
+            userProfile.setEmployer(null);
+        }
         new ModelMapper().map(request, userProfile);
         userProfile = userProfileRepository.save(userProfile);
         return new ModelMapper().map(userProfile, UserDetailDto.class);
