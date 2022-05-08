@@ -2,8 +2,17 @@ import React from "react";
 import Button from "../../components/system-ui/Button/Button";
 import "./Profile.scss";
 import { Accordion } from "react-bootstrap";
+import { getProfile } from "../../services/user.service";
 
 const Profile = () => {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    getProfile()
+      .then((res) => setData(res.data))
+      .catch((err) => toast.error(err.response?.data?.message ?? err.message));
+  });
+
   return (
     <main id="profile">
       <div className="profile-intro">
@@ -78,5 +87,3 @@ const Profile = () => {
     </main>
   );
 };
-
-export default Profile;
