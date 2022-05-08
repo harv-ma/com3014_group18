@@ -43,6 +43,8 @@ services:
       - POSTGRES_USER=group18
       - POSTGRES_PASSWORD=group18
       - POSTGRES_DB=users
+    ports:
+      - "5433:5432"
     volumes:
       - userservicedbdata:/var/lib/postgresql/data
     healthcheck:
@@ -72,6 +74,8 @@ services:
       - POSTGRES_DB=jobs
     volumes:
       - jobservicedbdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
     healthcheck:
       test: "exit 0"
 
@@ -133,6 +137,7 @@ services:
       - POSTGRES_DB=keycloak
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_FRONTEND_URL=http://localhost:9004
     volumes:
       - keycloakdbdata:/var/lib/postgresql/data
     healthcheck:
