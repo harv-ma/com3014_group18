@@ -31,4 +31,3 @@ keycloak:
   public-client: true
   ssl-required: none
   principal-attribute: preferred_username
-  use-resource-role-mappings: true

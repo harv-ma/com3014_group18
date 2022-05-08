@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping(value="upload-avatar")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<MessageResponseDto> uploadAvatar(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file) {
+    public ResponseEntity<MessageResponseDto> uploadAvatar(HttpServletRequest request, @RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity.ok(userService.uploadAvatar(Utility.getCurrentUserId(request), file));
     }
 
@@ -46,7 +46,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getProfile(Utility.getCurrentUserId(request)));
     }
 
-    @GetMapping(value="{userId}")
+    @GetMapping(value="{userId}/find")
     public ResponseEntity<UserDetailDto> getSingle(@PathVariable(value = "userId") UUID userId) {
         return ResponseEntity.ok(userService.getSingle(userId));
     }
@@ -59,12 +59,13 @@ public class UserController {
 
     @PostMapping(value="candidate/upload-resume")
     @PreAuthorize("hasRole('ROLE_CANDIDATE')")
-    public ResponseEntity<MessageResponseDto> uploadResume(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file) {
+    public ResponseEntity<MessageResponseDto> uploadResume(HttpServletRequest request, @RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity.ok(userService.uploadCandidateResume(Utility.getCurrentUserId(request), file));
     }
 
 
     @PostMapping(value="change-password")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<MessageResponseDto> changePassword(HttpServletRequest request,
                                                              @RequestBody @Valid ChangePasswordDto changePasswordDto) {
         return ResponseEntity.ok(userService.changePassword(Utility.getCurrentUserId(request), changePasswordDto));
