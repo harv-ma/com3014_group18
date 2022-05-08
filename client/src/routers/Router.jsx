@@ -9,13 +9,15 @@ import ContactPage from "../pages/ContactPage/ContactPage";
 import Login from "../pages/Login/Login";
 import EmployerArea from "../pages/EmployerArea/EmployerArea";
 import CreateJob from "../pages/CreateJob/CreateJob";
+import Register from "../pages/Register";
 
 const router = () => {
   return (
     <Routes>
       <Route path="/profile" exact element={<Profile />} />
       <Route path="/login" exact element={<Login register={false} />} />
-      <Route path="/register" exact element={<Login register={true} />} />
+      <Route path="/candidate/register" exact element={<Register isEmployer={false} />} />
+      <Route path="/employer/register" exact element={<Register isEmployer={true} />} />
       <Route path="/" exact element={<Homepage />} />
       <Route path="/employer-area" exact element={<EmployerArea />} />
       <Route path="/search" exact element={<JobList />} />
