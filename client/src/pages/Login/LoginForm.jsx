@@ -48,8 +48,8 @@ const LoginForm = () => {
           placeholder="Password"
           callback={inputUpdate}
         />
-        <button type="submit" className="button" id="submit">
-          { !loading ? 'Login' : 'Loading' }
+        <button disabled={loading} type="submit" className="button" id="submit">
+          Login
         </button>
       </div>
     </form>

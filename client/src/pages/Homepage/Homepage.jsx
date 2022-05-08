@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Homepage.scss";
-import { CSSTransition } from "react-transition-group";
 import Reeds from "../../components/svgs/Reeds";
 import Hero from "../../components/homepage/Hero";
 import { getJobs } from "../../services/job.service";
 import {toast} from "react-toastify";
-import JobCard from "../../components/JobCard";
 import JobList from "../../components/homepage/JobList";
 
 

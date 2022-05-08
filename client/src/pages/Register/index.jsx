@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = ({ isEmployer }) =>  {
     let navigate = useNavigate();
-    const [isLoading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [userData, setUserData] = useState({
         email: '',
         password: '',
@@ -60,54 +60,71 @@ const Register = ({ isEmployer }) =>  {
     };
     
     return (
-        <div className="register">
+        <div className="register mt-5">
             <div className="container">
+                <div className="row mt-5 mb-3">
+                    <div className="col-md-12 me-auto text-left">
+                        <h1 className="text-center">Join Our Amazing Commuinity</h1>
+                    </div>
+                </div>
                 <div className="row">
-                    <div className="col-md-10 md-offset-1">
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">Email address</label>
-                                <input id="email" name="email" type="email" className="form-control" onChange={userDataInputUpdate} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input id="password" name="password" type="password" className="form-control" onChange={userDataInputUpdate} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
-                                <input id="phoneNumber" name="phoneNumber" type="text" className="form-control" onChange={userDataInputUpdate} />
-                            </div>
+                    <div className="col-md-8 offset-md-2">
+                        <div className="card">
+                            <dis className="card-body">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="mb-3">
+                                        <label htmlFor="email" className="form-label">Email address</label>
+                                        <input id="email" name="email" type="email" className="form-control" onChange={userDataInputUpdate} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input id="password" name="password" type="password" className="form-control" onChange={userDataInputUpdate} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
+                                        <input id="phoneNumber" name="phoneNumber" type="text" className="form-control" onChange={userDataInputUpdate} />
+                                    </div>
 
-                            {!isEmployer && 
-                            <div>
-                                <div className="mb-3">
-                                    <label htmlFor="firstName" className="form-label">First Name</label>
-                                    <input id="firstName" name="firstName" type="text" className="form-control" onChange={candidateDataInputUpdate} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="lastName" className="form-label">Last Name</label>
-                                    <input id="lastName" name="lastName" type="text" className="form-control" onChange={candidateDataInputUpdate} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="occupation" className="form-label">Occupation</label>
-                                    <input id="occupation" name="occupation" type="text" className="form-control" onChange={candidateDataInputUpdate} />
-                                </div>
+                                    {!isEmployer && 
+                                    <div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label htmlFor="firstName" className="form-label">First Name</label>
+                                                    <input id="firstName" name="firstName" type="text" className="form-control" onChange={candidateDataInputUpdate} />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label htmlFor="lastName" className="form-label">Last Name</label>
+                                                    <input id="lastName" name="lastName" type="text" className="form-control" onChange={candidateDataInputUpdate} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="occupation" className="form-label">Occupation</label>
+                                            <input id="occupation" name="occupation" type="text" className="form-control" onChange={candidateDataInputUpdate} />
+                                        </div>
 
-                                <p>Are you an Employer? <Link to="/employer/register">Employer sign up</Link></p>
-                            </div>}
+                                        <p>Are you an Employer? <Link to="/employer/register">Employer sign up</Link></p>
+                                    </div>}
 
-                            {isEmployer &&
-                            <div>
-                                <div className="mb-3">
-                                    <label htmlFor="companyName" className="form-label">Company Name</label>
-                                    <input id="companyName" name="companyName" type="text" className="form-control" onChange={employerDataInputUpdate} />
-                                </div>
-                                <p>Are you looking for a job? <Link to="/candidate/register">Candidate sign up</Link></p>
-                            </div>
-}
+                                    {isEmployer &&
+                                    <div>
+                                        <div className="mb-3">
+                                            <label htmlFor="companyName" className="form-label">Company Name</label>
+                                            <input id="companyName" name="companyName" type="text" className="form-control" onChange={employerDataInputUpdate} />
+                                        </div>
+                                        <p>Are you looking for a job? <Link to="/candidate/register">Candidate sign up</Link></p>
+                                    </div>
+        }
 
-                            <button>{isLoading ? 'Loading' : 'Submit'}</button>
-                        </form>
+                                <button disabled={loading} type="submit" className="button" id="submit">
+                                        Register
+                                        </button>
+                                </form>
+                            </dis>
+                        </div>
                     </div>
                 </div>
             </div>

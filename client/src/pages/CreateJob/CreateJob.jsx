@@ -9,11 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { createJob } from "../../services/job.service";
 
 export default function CreateJob() {
+  const jobTypes = ["FULL_TIME", "PART_TIME", "INTERNSHIP", "CONTRACT"]
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [jobData, setJobData] = useState({
     position: "",
-    jobType: "FULL_TIME",
+    jobType: "",
     description: "",
     salary: 0,
     deadline: Date(),
@@ -48,8 +49,9 @@ export default function CreateJob() {
         />
         {/* Drop down select */}
         <Dropdown id="jobType" label="Job Type" callback={inputUpdate}>
-          <option value="FULL_TIME">Full Time</option>
-          <option value="PART_TIME">Part Time</option>
+          {jobTypes.map(jobType => (
+              <option key={jobType} value={jobType}>{jobType}</option>
+          ))}
           {/* <option value="flexible">Flexible</option> */}
         </Dropdown>
         {/* Textarea */}
@@ -67,7 +69,7 @@ export default function CreateJob() {
           callback={inputUpdate}
         />
         <DateInput label="Deadline" id="deadline" callback={inputUpdate} />
-        <button type="submit" className="button" id="submit">
+        <button type="submit" className="button mt-3" id="submit">
           { !loading ? 'Post Job' : 'Loading' }
         </button>
       </form>
