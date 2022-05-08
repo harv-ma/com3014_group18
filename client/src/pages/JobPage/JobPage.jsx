@@ -3,30 +3,19 @@ import "./JobPage.scss";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../components/system-ui/Button/Button";
 import Share from "../../components/system-ui/Share/Share";
-import Client from "../../helpers/Client";
+import { getJob } from "../../services/job.service";
 
 const JobPage = () => {
-  const { job_id } = useParams();
-
-  const [state, setState] = useState();
-
-  const getJob = () => {
-    return Client.get("/jobs/" + job_id)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((e) => console.log(e));
-  };
+  const { jobId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [job, setJob] = useState({})
 
   useEffect(() => {
-    getJob().then((data) => setState(data));
-  }, []);
-
-  console.log("state", state);
-
-  if (!state) {
-    return "Error loading page";
-  }
+    setLoading(true);
+    getJob(jobId).then(res => setJob(res.data))
+    .catch(err => toast.error(err.response?.data?.message ?? err.message));
+    setLoading(false);
+  }, [jobId]);
 
   return (
     <main id="jobpage">

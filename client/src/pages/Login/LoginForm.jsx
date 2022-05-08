@@ -1,29 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Input from "../../components/system-ui/Input/Input";
-import Client from "../../helpers/Client";
-
-const login = (state) => {
-  Client.get("/jobs?page=0&size=10&query=and")
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-};
+import { getProfile, login } from "../../services/user.service";
+import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [state, setState] = useState({
-    email: "",
-    password: "",
-  });
+  let navigate = useNavigate();
+
+  const [loginData, setLoginData] = useState({email: "", password: "",});
+  const [loading, setLoading] = useState(false);
+
 
   const inputUpdate = (e) => {
-    setState({ ...state, [e.target.id]: e.target.value });
+    setLoginData({ ...loginData, [e.target.id]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      setLoading(true);
+      const response = await login(loginData);
+      localStorage.setItem('access_token',response?.data?.access_token);
+      const userProfile = await getProfile();
+      localStorage.setItem('user', JSON.stringify(userProfile.data));
+      navigate('/', {replace: true});
+      toast.success('Login successful');
+    } catch(error) {
+      toast.error(error.response?.data?.message ?? error.message);
+    }
+    setLoading(false);
+  }
+
+
   return (
-    <div className="login-form">
+    <form className="login-form" onSubmit={handleSubmit}>
       <div>
         <Input
           id="email"
@@ -37,11 +48,11 @@ const LoginForm = () => {
           placeholder="Password"
           callback={inputUpdate}
         />
-        <button className="button" id="submit" onClick={() => login(state)}>
-          Login
+        <button type="submit" className="button" id="submit">
+          { !loading ? 'Login' : 'Loading' }
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

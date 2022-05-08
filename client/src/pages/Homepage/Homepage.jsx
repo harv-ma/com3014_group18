@@ -2,48 +2,30 @@ import React, { useEffect, useState } from "react";
 import "./Homepage.scss";
 import { CSSTransition } from "react-transition-group";
 import Reeds from "../../components/svgs/Reeds";
+import Hero from "../../components/homepage/Hero";
+import { getJobs } from "../../services/job.service";
+import {toast} from "react-toastify";
+
 
 const Homepage = () => {
-  const [visible, setVisible] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [jobs, setJobs] = useState([]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setVisible(!visible);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [visible]);
+  useEffect(() => {
+    setLoading(true);
+    getJobs(page, 100, search)
+    .then(res => setJobs(res.data))
+    .catch(err => toast.error(err.response?.data?.message ?? err.message));
+    setLoading(false);
+  }, [page, search])
 
   return (
-    <main id="homepage">
+    <React.Fragment>
       <Reeds />
-      <div className="home-intro">
-        <div className="text">
-          <CSSTransition in={visible} timeout={1000} classNames="intro-fade-in">
-            <h1>
-              Job <span>{visible ? "finding" : "recruiting"}</span> made easy
-            </h1>
-          </CSSTransition>
-
-          <p>
-            Whether you’re on the look out for your next full-time/part-time
-            job, or wanting to reach out to the hundreds of potential candidates
-            for your vacancies - this is the place for you.
-          </p>
-        </div>
-        <div className="search">
-          <div className="inner">
-            <label>Job Title</label>
-            <input placeholder="Teacher"></input>
-            <label>Around</label>
-            <input placeholder="Guildford"></input>
-            <button className="button">Search Now!</button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <p>Who we are</p>
-      </div>
-    </main>
+      <Hero handleSearch={e => setSearch(e.target.value)}/>
+    </React.Fragment>
   );
 };
 

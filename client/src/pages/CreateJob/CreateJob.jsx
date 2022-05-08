@@ -5,13 +5,13 @@ import Dropdown from "../../components/system-ui/Dropdown/Dropdown";
 import Input from "../../components/system-ui/Input/Input";
 import NumberInput from "../../components/system-ui/NumberInput/NumberInput";
 import Textarea from "../../components/system-ui/Textarea/Textarea";
-import Client from "../../helpers/Client";
 import { useNavigate } from "react-router-dom";
+import { createJob } from "../../services/job.service";
 
 export default function CreateJob() {
   const navigate = useNavigate();
-
-  const [state, setState] = useState({
+  const [loading, setLoading] = useState(false);
+  const [jobData, setJobData] = useState({
     position: "",
     jobType: "FULL_TIME",
     description: "",
@@ -20,23 +20,24 @@ export default function CreateJob() {
     location: "",
   });
 
-  const [errors, setErrors] = useState({});
-
   const inputUpdate = (e) => {
-    setState({ ...state, [e.target.id]: e.target.value });
+    setJobData({ ...jobData, [e.target.id]: e.target.value });
   };
 
-  const submit = () => {
-    Client.post("/jobs", state)
-      .then((res) => {
-        navigate("/jobs/" + res.data.id);
-      })
-      .catch((e) => console.log(e));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = createJob(jobData);
+      navigate(`jobs/${res.data.id}`);
+      toast.success('Job created successfully');
+    } catch(err) {
+      toast.error(err.response?.data?.message ?? err.message);
+    }
   };
 
   return (
     <main id="createjob">
-      <div className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <h2>Create Job Posting</h2>
         <Input
           label="Position Name"
@@ -66,8 +67,10 @@ export default function CreateJob() {
           callback={inputUpdate}
         />
         <DateInput label="Deadline" id="deadline" callback={inputUpdate} />
-        <Button label="Create Post" callback={submit} />
-      </div>
+        <button type="submit" className="button" id="submit">
+          { !loading ? 'Post Job' : 'Loading' }
+        </button>
+      </form>
     </main>
   );
 }
