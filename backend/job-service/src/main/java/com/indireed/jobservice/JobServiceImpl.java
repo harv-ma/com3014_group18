@@ -31,12 +31,13 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDetailDto update(UUID id,UUID userId, CreateUpdateJobDto request) {
+    public JobDetailDto update(UUID id, UUID userId, CreateUpdateJobDto request) {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        if(job.get().getUserId() != userId)
+        if(!job.get().getUserId().equals(userId)) {
             throw new AccessDeniedException("You are not allowed to edit this job");
+        }
         new ModelMapper().map(request, job.get());
         Job updatedJob = jobRepository.save(job.get());
         return new ModelMapper().map(updatedJob, JobDetailDto.class);
@@ -55,7 +56,7 @@ public class JobServiceImpl implements JobService {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        if(job.get().getUserId() != userId)
+        if(!job.get().getUserId().equals(userId))
             throw new AccessDeniedException("You are not allowed to delete this job");
         jobRepository.delete(job.get());
         return new MessageResponseDto("Job deleted successfully");
@@ -66,15 +67,19 @@ public class JobServiceImpl implements JobService {
         if (page < 1)
             page = 1;
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-        if (!query.isEmpty())
-            return jobRepository.
-                findAllByPositionIgnoreCaseLikeOrDescriptionIgnoreCaseLike(pageable, query, query)
+        Page<JobDetailDto> jobs;
+
+        if (query != null && !query.isEmpty()) {
+            jobs = jobRepository.
+                    findAllByPositionIgnoreCaseLikeOrDescriptionIgnoreCaseLike(pageable, query, query)
                     .map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
-        else
-            return jobRepository.
-                findAll(pageable).map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
+        } else {
+            jobs = jobRepository.
+                    findAll(pageable).map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
+        }
+        return jobs;
     }
 
     @Override
