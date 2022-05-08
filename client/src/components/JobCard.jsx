@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 const JobCard = ({job}) => {
     return (
         <div className="job-card">
-            <Link to={`/jobs/${job?.id}`}>
+            <Link to={`/jobs/${job?.id}`} style={{textDecoration: 'none'}}>
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex">
                       <div className="avatar avatar-xl bg-gradient-dark border-radius-md p-2">
-                        <img src="./assets/img/tesla.png" alt="slack_logo" />
+                        <img src={job?.user?.avatarUrl} alt={job?.position} />
                       </div>
                       <div className="ms-3 my-auto">
                         <h6>{job?.position}</h6>

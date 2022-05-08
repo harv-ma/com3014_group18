@@ -12,13 +12,11 @@ const JobList = ({jobs}) => {
                 </div>
             </div>
             <div className="row mt-lg-4 mt-2">
-                {jobs && jobs.map(job => {
-                    <div className="row mt-lg-4 mt-2">
-                        <div className="col-lg-4 col-md-6 mb-4">
-                            <JobCard job={job} />
-                        </div>
-                    </div>        
-                })}
+                {jobs && jobs.map(job => (
+                    <div className="col-lg-4 col-md-6 mb-4" key={job.id}>
+                        <JobCard job={job} />
+                    </div>       
+                ))}
             </div>
         </div>
     );
