@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             return response.getBody();
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
-            throw new BadRequestException(ex.getResponseBodyAsString());
+            throw new BadRequestException("Invalid username/password combination");
         }
 
     }

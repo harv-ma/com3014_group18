@@ -34,7 +34,7 @@ public class JobController {
         return ResponseEntity.ok(jobService.update(id, Utility.getCurrentUserId(request), createUpdateJobDto));
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "{id}/find")
     public ResponseEntity<JobDetailDto> getSingle(@PathVariable(value = "id") UUID id) {
         return ResponseEntity.ok(jobService.getSingle(id));
     }
@@ -50,6 +50,14 @@ public class JobController {
                                                      @RequestParam(value = "size") int size,
                                                      @RequestParam(value = "query", required = false) String query) {
         return ResponseEntity.ok(jobService.getAll(page, size, query));
+    }
+
+    @GetMapping(value = "mine")
+    @PreAuthorize("hasRole('ROLE_EMPLOYER')")
+    public ResponseEntity<Page<JobDetailDto>> getAllMine(HttpServletRequest request,
+                                                         @RequestParam(value = "page") int page,
+                                                     @RequestParam(value = "size") int size) {
+        return ResponseEntity.ok(jobService.getAllMine(page, size, Utility.getCurrentUserId(request)));
     }
 
     @PostMapping(value = "{id}/apply")

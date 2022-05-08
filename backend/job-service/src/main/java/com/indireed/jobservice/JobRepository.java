@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, UUID> {
-    Page<Job> findAllByPositionIgnoreCaseLikeOrDescriptionIgnoreCaseLike(Pageable pageable,
-                                                                         String position, String description);
+    Page<Job> findAllByPositionLikeIgnoreCaseOrDescriptionLikeIgnoreCaseOrLocationLikeIgnoreCase(Pageable pageable,
+                                                                         String position, String description, String location);
+    Page<Job> findAllByUserId(Pageable pageable, UUID userId);
 }

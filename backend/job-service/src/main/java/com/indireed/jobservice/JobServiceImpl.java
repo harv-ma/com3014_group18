@@ -73,13 +73,23 @@ public class JobServiceImpl implements JobService {
 
         if (query != null && !query.isEmpty()) {
             jobs = jobRepository.
-                    findAllByPositionIgnoreCaseLikeOrDescriptionIgnoreCaseLike(pageable, query, query)
+                    findAllByPositionLikeIgnoreCaseOrDescriptionLikeIgnoreCaseOrLocationLikeIgnoreCase(pageable, query, query, query)
                     .map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
         } else {
             jobs = jobRepository.
                     findAll(pageable).map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
         }
         return jobs;
+    }
+
+    @Override
+    public Page<JobDetailDto> getAllMine(int page, int size, UUID userId) {
+        if (page < 1)
+            page = 1;
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return jobRepository.
+                findAllByUserId(pageable, userId).map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
     }
 
     @Override

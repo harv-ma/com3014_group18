@@ -13,5 +13,6 @@ public interface JobService {
     JobDetailDto getSingle(UUID id);
     MessageResponseDto delete(UUID id, UUID userId);
     Page<JobDetailDto> getAll(int page, int size, String query);
+    Page<JobDetailDto> getAllMine(int page, int size, UUID userId);
     MessageResponseDto apply(UUID id, UUID userId);
 }
