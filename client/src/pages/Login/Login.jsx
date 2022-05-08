@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import "./Login.scss";
 import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
 import Reeds from "../../components/svgs/Reeds";
-import { Link } from "react-router-dom";
 
 const Login = () => {
 

@@ -22,7 +22,7 @@ const router = () => {
       <Route path="/employer-area" exact element={<EmployerArea />} />
       <Route path="/search" exact element={<JobList />} />
       <Route path="/jobs/create" exact element={<CreateJob />} />
-      <Route path="/jobs/:job_id" exact element={<JobPage />} />
+      <Route path="/jobs/:jobId" exact element={<JobPage />} />
       <Route path="/contact" exact element={<ContactPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
