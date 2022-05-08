@@ -112,3 +112,19 @@ label {
 .link {
     color: $theme_interest;
 }
+
+.accordion-item {
+    background-color: white;
+}
+
+.accordion-header button, .accordion-button:not(.collapsed), .accordion-button:not(.collapsed) {
+    background-color: $theme_light_grey;
+    color: black;
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
