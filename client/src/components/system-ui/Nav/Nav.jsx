@@ -34,7 +34,7 @@ const Nav = () => {
             <Link className="login" to="/login">
               Login
             </Link>
-            <Link className="signup" to="/register">
+            <Link className="signup" to="/candidate/register">
               Sign Up
             </Link>
           </div>
