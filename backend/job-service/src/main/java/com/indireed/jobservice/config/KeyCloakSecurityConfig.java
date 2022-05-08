@@ -27,7 +27,7 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
             "/swagger-ui/**",
             "/api-docs/**",
             "/v3/api-docs/**",
-            "/users/**"
+            "/jobs/**"
     };
 
     @Autowired
