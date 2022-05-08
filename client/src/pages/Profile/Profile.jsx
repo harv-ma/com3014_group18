@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../components/system-ui/Button/Button";
 import "./Profile.scss";
 import { Accordion } from "react-bootstrap";
 import { getProfile } from "../../services/user.service";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [data, setData] = useState({});
@@ -11,49 +12,63 @@ const Profile = () => {
     getProfile()
       .then((res) => setData(res.data))
       .catch((err) => toast.error(err.response?.data?.message ?? err.message));
-  });
+  }, []);
+
+  const candidate = data?.candidate;
+
+  var jobStatus;
+
+  switch (candidate?.jobSearchStatus) {
+    case "ACTIVELY_APPLYING":
+      jobStatus = "Actively Applying";
+      break;
+    // TODO: fill in the rest
+    default:
+      jobStatus = "Unknown";
+  }
+
+  console.log(data);
+
+  const navigate = useNavigate();
+  if (data?.userType != "CANDIDATE") {
+    navigate("/");
+  }
 
   return (
     <main id="profile">
       <div className="profile-intro">
         <div>
-          <img src="https://picsum.photos/150/150" alt="avatar" />
+          <img
+            src={data?.avatarUrl ? data?.avatarUrl : "default.png"}
+            alt="avatar"
+          />
         </div>
         <ul>
           <li>
-            Dunder Mifflin <Button label="Update" />
+            {candidate?.firstName} {candidate?.lastName}
           </li>
           <li>
-            <span>Address</span> 1725 Slough Avenute, Scantom, PA
+            <span>Occupation</span> {candidate?.occupation}
           </li>
           <li>
-            <span>Phone Number</span> 1-800-613-8840
+            <span>Phone Number</span> {data?.phoneNumber}
           </li>
           <li>
-            <span>Website</span> DunderMifflinPaper.com
+            <span>Job Search Status</span> {jobStatus}
           </li>
         </ul>
       </div>
-      <div className="profile-description">
-        <h3>Company Description</h3>
-        <p>
-          Curabitur aliquet quam id dui posuere blandit. Nulla porttitor
-          accumsan tincidunt. Nulla porttitor accumsan tincidunt. Mauris blandit
-          aliquet elit, eget tincidunt nibh pulvinar a. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Donec sollicitudin molestie
-          malesuada. Donec sollicitudin molestie malesuada. Praesent sapien
-          massa, convallis a pellentesque nec, egestas non nisi. Praesent sapien
-          massa, convallis a pellentesque nec, egestas non nisi. Nulla quis
-          lorem ut libero malesuada feugiat. Sed porttitor lectus nibh.
-          Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Sed
-          porttitor lectus nibh. Donec rutrum congue leo eget malesuada. Donec
-          rutrum congue leo eget malesuada. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Nulla
-          quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan
-          id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-          pellentesque nec, egestas non nisi.
-        </p>
-      </div>
+      {candidate?.bio ? (
+        <div className="profile-description">
+          <h3>Biography</h3>
+          <p>{candidate?.bio}</p>
+        </div>
+      ) : (
+        <div className="profile-description">
+          <h3>Biography</h3>
+          <p>This user has yet to add a biography</p>
+        </div>
+      )}
 
       <div className="profile-applications">
         <h3>Open Applications</h3>
@@ -87,3 +102,5 @@ const Profile = () => {
     </main>
   );
 };
+
+export default Profile;
