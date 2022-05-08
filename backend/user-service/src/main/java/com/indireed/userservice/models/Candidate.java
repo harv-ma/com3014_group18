@@ -22,8 +22,9 @@ public class Candidate {
     @Id
     @GeneratedValue
     private UUID id;
-    @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_profile_id", nullable = false)
+    @ToString.Exclude
     private UserProfile userProfile;
     private String firstName;
     private String lastName;

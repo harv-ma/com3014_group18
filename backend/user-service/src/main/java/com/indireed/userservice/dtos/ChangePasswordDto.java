@@ -11,7 +11,5 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ChangePasswordDto {
     @NotNull
-    private String oldPassword;
-    @NotNull
     private String newPassword;
 }

@@ -4,10 +4,13 @@ package com.indireed.userservice.serviceImpl;
 import com.indireed.userservice.dtos.*;
 import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.exceptions.BadRequestException;
+import com.indireed.userservice.exceptions.ResourceNotFoundException;
 import com.indireed.userservice.models.Candidate;
 import com.indireed.userservice.models.Employer;
 import com.indireed.userservice.models.UserProfile;
+import com.indireed.userservice.repositories.CandidateRepository;
 import com.indireed.userservice.repositories.UserProfileRepository;
+import com.indireed.userservice.services.CloudinaryService;
 import com.indireed.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +18,6 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.ws.rs.QueryParam;
 import java.util.*;
 
 import static com.indireed.userservice.config.KeycloakAdminClientConfig.getKeyCloak;
@@ -34,12 +37,17 @@ import static com.indireed.userservice.config.KeycloakAdminClientConfig.getKeyCl
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserProfileRepository userProfileRepository;
+    private final CandidateRepository candidateRepository;
+
+    private final CloudinaryService cloudinaryService;
+
     @Value("${keycloak.realm}")
     private String realmName;
 
     @Value("${keycloak.auth-server-url}")
     private String baseUrl;
     private final RestTemplate restTemplate;
+
 
     @Override
     public HashMap login(LoginDTO request) {
@@ -94,18 +102,20 @@ public class UserServiceImpl implements UserService {
         }
 
         UserProfile userProfile = new ModelMapper().map(request, UserProfile.class);
-        userProfile.setUserId(userId);
+        userProfile.setUserId(UUID.fromString(userId));
 
         if (request.getUserType().equals(UserType.EMPLOYER)) {
             Employer employer = new ModelMapper().map(request.getEmployer(), Employer.class);
             userProfile.setCandidate(null);
             userProfile.setEmployer(employer);
+            employer.setUserProfile(userProfile);
         }
 
         if (request.getUserType().equals(UserType.CANDIDATE)) {
             Candidate candidate = new ModelMapper().map(request.getCandidate(), Candidate.class);
             userProfile.setEmployer(null);
             userProfile.setCandidate(candidate);
+            candidate.setUserProfile(userProfile);
         }
 
 
@@ -118,43 +128,69 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public MessageResponseDto uploadAvatar(MultipartFile file) {
-        return null;
+    public MessageResponseDto uploadAvatar(UUID userId, MultipartFile file) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        userProfile.setAvatarUrl(cloudinaryService.uploadFile(file));
+        userProfileRepository.save(userProfile);
+        return new MessageResponseDto("Avatar uploaded successfully");
     }
 
     @Override
-    public UserDetailDto getProfile() {
-        return null;
+    public UserDetailDto getProfile(UUID userId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        UserDetailDto userDetailDto = new ModelMapper().map(userProfile, UserDetailDto.class);
+        // userDetailDto.setEmail(getKeyCloak().realm(realmName).users().get("test@user.com").toRepresentation().getEmail());
+        return userDetailDto;
     }
 
     @Override
-    public UserDetailDto getSingle(UUID id) {
-        return null;
+    public UserDetailDto getSingle(UUID userId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        UserDetailDto userDetailDto = new ModelMapper().map(userProfile, UserDetailDto.class);
+        // userDetailDto.setEmail(getKeyCloak().realm(realmName).users().get("test@user.com").toRepresentation().getEmail());
+        return userDetailDto;
     }
 
     @Override
-    public UserDetailDto update(UserUpdateDto request) {
-        return null;
+    public UserDetailDto update(UUID userId, UserUpdateDto request) {
+//        UserRepresentation userUpdate = new UserRepresentation();
+//        userUpdate.setEmail(request.getEmail());
+//        getKeyCloak().realm(realmName).users().get(userId.toString()).update(userUpdate);
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        new ModelMapper().map(request, userProfile);
+        userProfile = userProfileRepository.save(userProfile);
+        return new ModelMapper().map(userProfile, UserDetailDto.class);
     }
 
     @Override
-    public MessageResponseDto uploadCandidateResume(MultipartFile file) {
-        return null;
+    public MessageResponseDto uploadCandidateResume(UUID userId, MultipartFile file) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        userProfile.getCandidate().setResumeUrl(cloudinaryService.uploadFile(file));
+        candidateRepository.save(userProfile.getCandidate());
+        return new MessageResponseDto("Resume uploaded successfully");
     }
 
     @Override
-    public Page<UserDetailDto> getAllByUserType(int page, int size, UserType userType, String query) {
-        return null;
+    public MessageResponseDto changePassword(UUID userId, ChangePasswordDto request) {
+        CredentialRepresentation cred = new CredentialRepresentation();
+        cred.setType(CredentialRepresentation.PASSWORD);
+        cred.setValue(request.getNewPassword());
+        cred.setTemporary(false);
+        getKeyCloak().realm(realmName).users().get(userId.toString()).resetPassword(cred);
+        return new MessageResponseDto("Password updated successfully");
     }
 
     @Override
-    public MessageResponseDto changePassword(ChangePasswordDto request) {
-        return null;
-    }
-
-    @Override
-    @Transactional
     public MessageResponseDto sendPasswordReset(SendPasswordResetDto request) {
-        return null;
+        List<UserRepresentation> userRepresentations =
+                getKeyCloak().realm(realmName).users().search(request.getEmail(), true);
+        if (userRepresentations.isEmpty()) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        getKeyCloak().realm(realmName).users().get(userRepresentations.get(0).getId()).executeActionsEmail(List.of("UPDATE_PASSWORD"));
+        return new MessageResponseDto("Password Reset link has been send to your mail");
     }
 }

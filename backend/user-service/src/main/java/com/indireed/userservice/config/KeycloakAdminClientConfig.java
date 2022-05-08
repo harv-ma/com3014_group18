@@ -9,6 +9,7 @@ public class KeycloakAdminClientConfig {
         return Keycloak.getInstance("http://keycloak:8080",
                 "master",
                 "admin",
-                "admin", "admin-cli");
+                "admin",
+                "admin-cli");
     }
 }

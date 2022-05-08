@@ -1,5 +1,6 @@
 package com.indireed.userservice.controllers;
 
+import com.indireed.userservice.Utility;
 import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.services.UserService;
 import com.indireed.userservice.dtos.*;
@@ -34,46 +35,39 @@ public class UserController {
     }
 
     @PostMapping(value="upload-avatar")
-    public ResponseEntity<MessageResponseDto> uploadAvatar(@RequestParam(value = "file") MultipartFile file) {
-        return ResponseEntity.ok(userService.uploadAvatar(file));
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<MessageResponseDto> uploadAvatar(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file) {
+        return ResponseEntity.ok(userService.uploadAvatar(Utility.getCurrentUserId(request), file));
     }
 
     @GetMapping(value="profile")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDetailDto> getProfile(HttpServletRequest request) {
-//        KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request.getUserPrincipal();
-//        String userId = principal.getAccount().getKeycloakSecurityContext().getIdToken().getSubject();
-//        System.out.println(userId);
-        System.out.println("Work");
-        return ResponseEntity.ok(userService.getProfile());
+        return ResponseEntity.ok(userService.getProfile(Utility.getCurrentUserId(request)));
     }
 
-    @GetMapping(value="{id}")
-    public ResponseEntity<UserDetailDto> getSingle(@PathVariable(value = "id") UUID id) {
-        return ResponseEntity.ok(userService.getSingle(id));
+    @GetMapping(value="{userId}")
+    public ResponseEntity<UserDetailDto> getSingle(@PathVariable(value = "userId") UUID userId) {
+        return ResponseEntity.ok(userService.getSingle(userId));
     }
 
     @PutMapping(value="")
-    public ResponseEntity<UserDetailDto> updateUser(@RequestBody @Valid UserUpdateDto request) {
-        return ResponseEntity.ok(userService.update(request));
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UserDetailDto> updateUser(HttpServletRequest request, @RequestBody @Valid UserUpdateDto userUpdateDto) {
+        return ResponseEntity.ok(userService.update(Utility.getCurrentUserId(request), userUpdateDto));
     }
 
     @PostMapping(value="candidate/upload-resume")
-    public ResponseEntity<MessageResponseDto> uploadResume(@RequestParam(value = "file") MultipartFile file) {
-        return ResponseEntity.ok(userService.uploadCandidateResume(file));
+    @PreAuthorize("hasRole('ROLE_CANDIDATE')")
+    public ResponseEntity<MessageResponseDto> uploadResume(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file) {
+        return ResponseEntity.ok(userService.uploadCandidateResume(Utility.getCurrentUserId(request), file));
     }
 
-    @GetMapping(value="")
-    public ResponseEntity<Page<UserDetailDto>> getAllByUserType(@RequestParam(value = "page") int page,
-                                                                @RequestParam(value = "size") int size,
-                                                                @RequestParam(value = "userType") UserType userType,
-                                                                @RequestParam(value = "query") String query) {
-        return ResponseEntity.ok(userService.getAllByUserType(page, size, userType, query));
-    }
 
     @PostMapping(value="change-password")
-    public ResponseEntity<MessageResponseDto> changePassword(@RequestBody @Valid ChangePasswordDto request) {
-        return ResponseEntity.ok(userService.changePassword(request));
+    public ResponseEntity<MessageResponseDto> changePassword(HttpServletRequest request,
+                                                             @RequestBody @Valid ChangePasswordDto changePasswordDto) {
+        return ResponseEntity.ok(userService.changePassword(Utility.getCurrentUserId(request), changePasswordDto));
     }
 
     @PostMapping(value="password-reset/send")

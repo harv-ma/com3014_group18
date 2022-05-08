@@ -11,18 +11,12 @@ import java.util.UUID;
 public interface UserService {
     HashMap login(LoginDTO request);
     UserDetailDto createUser(CreateUserDto request);
-    MessageResponseDto uploadAvatar(MultipartFile file);
-    UserDetailDto getProfile();
-    UserDetailDto getSingle(UUID id);
-    UserDetailDto update(UserUpdateDto request);
-    MessageResponseDto uploadCandidateResume(MultipartFile file);
-    Page<UserDetailDto> getAllByUserType(int page, int size, UserType userType, String query);
-    MessageResponseDto changePassword(ChangePasswordDto request);
+    MessageResponseDto uploadAvatar(UUID userId, MultipartFile file);
+    UserDetailDto getProfile(UUID userId);
+    UserDetailDto getSingle(UUID userId);
+    UserDetailDto update(UUID userId, UserUpdateDto request);
+    MessageResponseDto uploadCandidateResume(UUID userId, MultipartFile file);
+    MessageResponseDto changePassword(UUID userId, ChangePasswordDto request);
     MessageResponseDto sendPasswordReset(SendPasswordResetDto request);
 
-    // String userId = request.getUserPrincipal().getName();
-    // KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken)
-    // request.getUserPrincipal();
-    // System.out.println("SHALOM1: " +
-    // principal.getAccount().getKeycloakSecurityContext().getToken().getSubject());
 }

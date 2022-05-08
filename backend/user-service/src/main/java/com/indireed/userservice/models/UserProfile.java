@@ -20,14 +20,20 @@ public class UserProfile {
     @Id
     @GeneratedValue
     private UUID id;
-    private String userId;
+    private UUID userId;
     private String avatarUrl;
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "userProfile")
+    @ToString.Exclude
     private Employer employer;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userProfile")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "userProfile")
+    @ToString.Exclude
     private Candidate candidate;
     @Column(updatable=false)
     @CreationTimestamp

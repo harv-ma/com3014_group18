@@ -29,5 +29,6 @@ keycloak:
   realm: group18
   resource: user-service
   public-client: true
-  ssl-required: external
-  proxy-url: http://localhost:9004
+  ssl-required: none
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
