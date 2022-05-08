@@ -12,6 +12,7 @@ import java.util.UUID;
 @Data
 public class UserDetailDto {
     private UUID id;
+    private UUID userId;
     private String email;
     private String avatarUrl;
     private String phoneNumber;
