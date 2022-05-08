@@ -13,7 +13,7 @@ public class OpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(new Components())
-                .info(new Info().title("User Service API").description(
-                        "API documentation for user service"));
+                .info(new Info().title("Job Service API").description(
+                        "API documentation for job service"));
     }
 }
