@@ -22,3 +22,10 @@ eureka:
     service-url:
       defaultZone: http://serviceregistry:8761/eureka
 
+keycloak:
+  auth-server-url: http://keycloak:8080
+  realm: group18
+  resource: application-service
+  public-client: true
+  ssl-required: none
+  principal-attribute: preferred_username
