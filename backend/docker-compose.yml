@@ -143,6 +143,11 @@ services:
     healthcheck:
       test: "exit 0"
 
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   userservicedbdata:

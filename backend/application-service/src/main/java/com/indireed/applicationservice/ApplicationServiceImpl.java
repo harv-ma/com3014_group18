@@ -1,9 +1,6 @@
 package com.indireed.applicationservice;
 
-import com.indireed.applicationservice.dtos.ApplicationDetailDto;
-import com.indireed.applicationservice.dtos.JobDetailDto;
-import com.indireed.applicationservice.dtos.MessageResponseDto;
-import com.indireed.applicationservice.dtos.UserDetailDto;
+import com.indireed.applicationservice.dtos.*;
 import com.indireed.applicationservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -62,6 +59,11 @@ public class ApplicationServiceImpl implements ApplicationService{
         application.get().setStatus(status);
         applicationRepository.save(application.get());
         return new MessageResponseDto("Application Status updated successfully");
+    }
+
+    private void applyToJob(JobApplicationDTO request) {
+        Application application = new ModelMapper().map(request, Application.class);
+        applicationRepository.save(application);
     }
 
     private void deleteAllApplicationsByJob(UUID jobId) {
