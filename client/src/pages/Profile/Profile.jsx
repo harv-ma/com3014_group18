@@ -26,13 +26,14 @@ const Profile = () => {
 
   return <main id="profile">
     <div className="detailsBox">
-      <div><img src={profile?.candidate?.avatarUrl} alt="avatar" /></div>
+      <div><img src={profile?.avatarUrl} className="img-thumbnail" alt="avatar" height="150" width="150" /></div>
       <div className="detailsText">
         <div className="title">{profile?.candidate?.firstName} {profile?.candidate?.lastName}</div>
         <div className="subtitle">Phone Number: {profile?.phoneNumber}</div>
         <div className="subtitle">Occupation: {profile?.candidate?.occupation}</div>
       </div>
     </div>
+    {profile?.candidate?.resumeUrl && <div><a className="btn btn-primary" href={profile?.candidate?.resumeUrl} target="_blank" rel="noreferrer" style={{textDecoration: 'none'}}>View Resume</a></div>}
     <div className="title">About Me</div>
     <div>
       {profile?.candidate?.bio}

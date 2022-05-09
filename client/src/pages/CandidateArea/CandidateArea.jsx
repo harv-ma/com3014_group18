@@ -25,13 +25,14 @@ const CandidateArea = () => {
   return (
   <main id="EmployerArea">
     <div className="detailsBox">
-      <div><img src={profile?.avatarUrl} alt="avatar" /></div>
+      <div><img src={profile?.avatarUrl} className="img-thumbnail" alt="avatar" height="150" width="150" /></div>
       <div className="detailsText">
         <div className="title">{profile?.candidate?.firstName} {profile?.candidate?.lastName}</div>
         <div className="subtitle">Phone Number: {profile?.phoneNumber}</div>
         <div className="subtitle">Occupation: {profile?.candidate?.occupation}</div>
       </div>
-      <div><Link className="buttonDetails" to="/profile/edit">Update Details</Link></div>
+      <div><Link className="btn btn-primary" to="/profile/edit" style={{textDecoration: 'none'}}>Update Details</Link></div>&emsp;
+      {profile?.candidate?.resumeUrl && <div><a className="btn btn-primary" href={profile?.candidate?.resumeUrl} target="_blank" rel="noreferrer" style={{textDecoration: 'none'}}>View Resume</a></div>}
     </div>
     <div className="title">About Me</div>
     <div>

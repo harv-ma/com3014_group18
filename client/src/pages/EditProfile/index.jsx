@@ -80,10 +80,10 @@ const EditProfile = () =>  {
         formData.append(
           "file",
           selectedResume,
-          sselectedResume.name
+          selectedResume.name
         );
         try {
-           const res = uploadResume(formData);
+           const res = await uploadResume(formData);
             toast.success(res.data?.message);
         } catch(err) {
             toast.error(err.response?.data?.message ?? err.message);
@@ -104,7 +104,7 @@ const EditProfile = () =>  {
           selectedAvatar.name
         );
         try {
-           const res = uploadAvatar(formData);
+           const res = await uploadAvatar(formData);
             toast.success(res.data?.message);
         } catch(err) {
             toast.error(err.response?.data?.message ?? err.message);
@@ -123,7 +123,21 @@ const EditProfile = () =>  {
                     <div className="col-md-8 offset-md-2">
                         <div className="card">
                             <dis className="card-body">
-                                <form onSubmit={handleSubmit}>
+                                 <div className="form-inline">
+                                    <input type="file" className="form-control-file" onChange={onAvatarChanged} />&emsp;
+                                    <button onClick={onAvatarUpload} className="btn btn-primary">
+                                        Upload Avatar!
+                                    </button>
+                                </div>
+
+                                {!isEmployer &&
+                                <div className="form-inline mt-3">
+                                    <input type="file" className="form-control-file" onChange={onResumeFileChanged} />&emsp;
+                                    <button onClick={onResumeUpload} className="btn btn-primary">
+                                        Upload Resume!
+                                    </button>
+                                </div>}
+                                <form onSubmit={handleSubmit} className="mt-3">
                                     <div className="mb-3">
                                         <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
                                         <input id="phoneNumber" name="phoneNumber" type="text" className="form-control" value={userData.phoneNumber} onChange={userDataInputUpdate} />
@@ -165,21 +179,6 @@ const EditProfile = () =>  {
                                             </div>
                                         </div>
                                         <textarea name="bio" className="form-control" rows="3" onChange={candidateDataInputUpdate} value={candidateData?.bio}></textarea>   
-
-
-                                        <div>
-                                            <input type="file" onChange={onResumeFileChanged} />
-                                            <button onClick={onResumeUpload}>
-                                                Upload Resume!
-                                            </button>
-                                        </div>
-
-                                        <div>
-                                            <input type="file" onChange={onAvatarChanged} />
-                                            <button onClick={uploadAvatar}>
-                                                Upload Avatar!
-                                            </button>
-                                        </div>
                                     </div>}
 
                                     {isEmployer &&

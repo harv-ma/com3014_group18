@@ -34,14 +34,14 @@ const EmployerArea = () => {
   return (
   <main id="EmployerArea">
     <div className="detailsBox">
-      <div><img src={profile?.avatarUrl} alt="avatar" /></div>
+    <div><img src={profile?.avatarUrl} className="img-thumbnail" alt="avatar" height="150" width="150" /></div>
       <div className="detailsText">
         <div className="title">{profile?.user?.employer.companyName}</div>
         <div className="subtitle">{profile?.user?.employer?.address}</div>
         <div className="subtitle">{profile?.user?.phoneNumber}</div>
         <div className="subtitle">{profile?.user?.employer?.website}</div>
       </div>
-      <div><Link className="buttonDetails" to="/profile/edit">Update Details</Link></div>
+      <div><Link className="btn btn-primary" to="/profile/edit" style={{textDecoration: 'none'}}>Update Details</Link></div>
     </div>
     <div className="title">Company Description</div>
     <div>
@@ -64,7 +64,7 @@ const EmployerArea = () => {
             <Accordion.Body>
                 {job.description}
                 <br></br>
-                <Link className="buttonAccordion" to={`/jobs/${job?.id}/edit`} style={{textDecoration: 'none'}}>Edit Job</Link>
+                <Link className="btn btn-primary mt-3 mb-3" to={`/jobs/${job?.id}/edit`} style={{textDecoration: 'none'}}>Edit Job</Link>
                 <div className="ApplicantsAccordion">
                         <Accordion defaultActiveKey="0" alwaysOpen>
                             {job?.applications && job?.applications?.map((application, index) => (
