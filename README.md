@@ -13,7 +13,7 @@ How to run:
      - Use the credentials <pre>Username: admin</pre><pre>Password: admin</pre> to log in
 <img src="backend/keycloak/setup1.png"  alt="keycloak"/>
      - From the image above, click <b>Add Realm</b>
-<img src="backend/keycloak/setup1.png"  alt="keycloak"/>
+<img src="backend/keycloak/setup2.png"  alt="keycloak"/>
      - From the image above, on the import click <b>Select file</b> and upload the file <b>realm-export.json</b> located in the keycloak folder file. Then click create
      - <b>Voila!</b> The Backend is all done
  - Frontend
