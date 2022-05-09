@@ -39,7 +39,7 @@ export default function EditJob() {
     e.preventDefault();
     try {
       const res = updateJob(jobId, jobData);
-      navigate(`jobs/${res.data.id}`);
+      navigate(`jobs/${res.data?.id}`, {replace: true});
       toast.success('Job edited successfully');
     } catch(err) {
       toast.error(err.response?.data?.message ?? err.message);
