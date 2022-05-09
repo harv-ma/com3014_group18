@@ -1,6 +1,7 @@
 package com.indireed.userservice.serviceImpl;
 
 
+import com.indireed.userservice.config.MessagingConfig;
 import com.indireed.userservice.dtos.*;
 import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.exceptions.BadRequestException;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
     @Value("${keycloak.auth-server-url}")
     private String baseUrl;
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
 
     @Override
@@ -68,7 +71,7 @@ public class UserServiceImpl implements UserService {
             return response.getBody();
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
-            throw new BadRequestException(ex.getResponseBodyAsString());
+            throw new BadRequestException("Invalid username/password combination");
         }
 
     }
@@ -155,11 +158,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetailDto update(UUID userId, UserUpdateDto request) {
-//        UserRepresentation userUpdate = new UserRepresentation();
-//        userUpdate.setEmail(request.getEmail());
-//        getKeyCloak().realm(realmName).users().get(userId.toString()).update(userUpdate);
+    public MessageResponseDto deleteUser(UUID userId) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        userProfileRepository.delete(userProfile);
+        getKeyCloak().realm(realmName).users().get(userId.toString()).remove();
+        rabbitTemplate.convertAndSend(MessagingConfig.USER_JOB_DELETION_QUEUE, userId);
+        rabbitTemplate.convertAndSend(MessagingConfig.USER_APPLICATION_DELETION_QUEUE, userId);
+        return new MessageResponseDto("User Deleted Successfully");
+    }
+
+    @Override
+    public UserDetailDto update(UUID userId, UserUpdateDto request) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile.getUserType().equals(UserType.EMPLOYER)) {
+            userProfile.setCandidate(null);
+        }
+        if (userProfile.getUserType().equals(UserType.CANDIDATE)) {
+            userProfile.setEmployer(null);
+        }
         new ModelMapper().map(request, userProfile);
         userProfile = userProfileRepository.save(userProfile);
         return new ModelMapper().map(userProfile, UserDetailDto.class);
@@ -181,16 +200,5 @@ public class UserServiceImpl implements UserService {
         cred.setTemporary(false);
         getKeyCloak().realm(realmName).users().get(userId.toString()).resetPassword(cred);
         return new MessageResponseDto("Password updated successfully");
-    }
-
-    @Override
-    public MessageResponseDto sendPasswordReset(SendPasswordResetDto request) {
-        List<UserRepresentation> userRepresentations =
-                getKeyCloak().realm(realmName).users().search(request.getEmail(), true);
-        if (userRepresentations.isEmpty()) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        getKeyCloak().realm(realmName).users().get(userRepresentations.get(0).getId()).executeActionsEmail(List.of("UPDATE_PASSWORD"));
-        return new MessageResponseDto("Password Reset link has been send to your mail");
     }
 }

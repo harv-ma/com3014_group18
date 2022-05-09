@@ -51,6 +51,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getSingle(userId));
     }
 
+    @DeleteMapping(value="")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<MessageResponseDto> deleteUser(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.deleteUser(Utility.getCurrentUserId(request)));
+    }
+
     @PutMapping(value="")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDetailDto> updateUser(HttpServletRequest request, @RequestBody @Valid UserUpdateDto userUpdateDto) {
@@ -69,10 +75,5 @@ public class UserController {
     public ResponseEntity<MessageResponseDto> changePassword(HttpServletRequest request,
                                                              @RequestBody @Valid ChangePasswordDto changePasswordDto) {
         return ResponseEntity.ok(userService.changePassword(Utility.getCurrentUserId(request), changePasswordDto));
-    }
-
-    @PostMapping(value="password-reset/send")
-    public ResponseEntity<MessageResponseDto> sendPasswordReset(@RequestBody @Valid SendPasswordResetDto request) {
-        return ResponseEntity.ok(userService.sendPasswordReset(request));
     }
 }

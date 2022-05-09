@@ -67,3 +67,14 @@
 
   cursor: pointer;
 }
+
+.hero {
+  background-color:  wheat;
+  width: 100%;
+  padding: 50px;
+  h1 {
+      color: teal;
+      text-transform: capitalize;
+      font-weight: bold;
+  }
+}

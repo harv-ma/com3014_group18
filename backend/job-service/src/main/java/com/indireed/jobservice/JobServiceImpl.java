@@ -1,26 +1,26 @@
 package com.indireed.jobservice;
 
-import com.indireed.jobservice.dtos.CreateUpdateJobDto;
-import com.indireed.jobservice.dtos.JobDetailDto;
-import com.indireed.jobservice.dtos.MessageResponseDto;
+import com.indireed.jobservice.config.MessagingConfig;
+import com.indireed.jobservice.dtos.*;
+import com.indireed.jobservice.exceptions.BadRequestException;
 import com.indireed.jobservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public JobDetailDto create(UUID userId, CreateUpdateJobDto request) {
@@ -48,7 +48,14 @@ public class JobServiceImpl implements JobService {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        return new ModelMapper().map(job.get(), JobDetailDto.class);
+        JobDetailDto currJob = new ModelMapper().map(job.get(), JobDetailDto.class);
+        try {
+            currJob.setUser(restTemplate.getForObject("http://USER-SERVICE/users/" + job.get().getUserId() + "/find", UserDetailDto.class));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            currJob.setUser(null);
+        }
+        return currJob;
     }
 
     @Override
@@ -59,27 +66,52 @@ public class JobServiceImpl implements JobService {
         if(!job.get().getUserId().equals(userId))
             throw new AccessDeniedException("You are not allowed to delete this job");
         jobRepository.delete(job.get());
+        // rabbitTemplate.convertAndSend(MessagingConfig.JOB_DELETION_QUEUE, id);
         return new MessageResponseDto("Job deleted successfully");
     }
 
     @Override
-    public Page<JobDetailDto> getAll(int page, int size, String query) {
-        if (page < 1)
-            page = 1;
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        Page<JobDetailDto> jobs;
+    public List<JobDetailDto> getAll(String query) {
+        List<JobDetailDto> jobList = new ArrayList<>();
+        List<Job> jobs;
 
         if (query != null && !query.isEmpty()) {
-            jobs = jobRepository.
-                    findAllByPositionIgnoreCaseLikeOrDescriptionIgnoreCaseLike(pageable, query, query)
-                    .map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
+            jobs = jobRepository.search(query);
         } else {
-            jobs = jobRepository.
-                    findAll(pageable).map(entity -> new ModelMapper().map(entity, JobDetailDto.class));
+            jobs = jobRepository.findAll();
         }
-        return jobs;
+
+        for (Job job : jobs) {
+            JobDetailDto currJob = new ModelMapper().map(job, JobDetailDto.class);
+            try {
+                currJob.setUser(restTemplate.getForObject("http://USER-SERVICE/users/" + job.getUserId() + "/find", UserDetailDto.class));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                currJob.setUser(null);
+            }
+            jobList.add(currJob);
+        }
+        return jobList;
+    }
+
+    @Override
+    public List<OwnerJobDetailDto> getAllMine(UUID userId) {
+        List<OwnerJobDetailDto> jobList = new ArrayList<>();
+        List<Job> jobs = jobRepository.findAllByUserId(userId);
+        for (Job job : jobs) {
+            OwnerJobDetailDto currJob = new ModelMapper().map(job, OwnerJobDetailDto.class);
+
+            try {
+                ApplicationDetailDto[] applications = restTemplate.getForObject("http://APPLICATION-SERVICE/applications/job/"+job.getId(), ApplicationDetailDto[].class);
+                assert applications != null;
+                currJob.setApplications(Arrays.stream(applications).toList());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                currJob.setApplications(new ArrayList<>());
+            }
+            jobList.add(currJob);
+        }
+        return jobList;
     }
 
     @Override
@@ -87,7 +119,20 @@ public class JobServiceImpl implements JobService {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        // TODO: Call Rabbit MQ For application
+        // rabbitTemplate.convertAndSend(MessagingConfig.JOB_APPLICATION_QUEUE, new JobApplicationDTO(id, userId));
+        try {
+            MessageResponseDto res = restTemplate.postForObject("http://APPLICATION-SERVICE/applications/job/"+id+"/apply", new JobApplicationDTO(id, userId), MessageResponseDto.class);
+            System.out.println(res);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new BadRequestException(ex.getMessage());
+        }
         return new MessageResponseDto("Application submitted successfully");
     }
+
+//    @RabbitListener(queues = "user_job_deletion_queue")
+//    private void deleteUserJobs(UUID userId) {
+//        List<Job> jobs = jobRepository.findAllByUserId(userId);
+//        jobRepository.deleteAll(jobs);
+//    }
 }

@@ -1,38 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./JobPage.scss";
 import { Link, useParams } from "react-router-dom";
-import Button from "../../components/system-ui/Button/Button";
-import Share from "../../components/system-ui/Share/Share";
-import Client from "../../helpers/Client";
+import { applyToJob, getJob } from "../../services/job.service";
+import {toast} from "react-toastify";
 
 const JobPage = () => {
-  const { job_id } = useParams();
-
-  const [state, setState] = useState();
-
-  const getJob = () => {
-    return Client.get("/jobs/" + job_id)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((e) => console.log(e));
-  };
+  const { jobId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [applying, setApplying] = useState(false);
+  const [job, setJob] = useState({})
 
   useEffect(() => {
-    getJob().then((data) => setState(data));
-  }, []);
+    setLoading(true);
+    getJob(jobId).then(res => setJob(res.data))
+    .catch(err => toast.error(err.response?.data?.message ?? err.message));
+    setLoading(false);
+  }, [jobId]);
 
-  console.log("state", state);
-
-  if (!state) {
-    return "Error loading page";
+  const apply = async () => {
+    setApplying(true);
+    try {
+      const res = applyToJob(jobId);
+      toast.success(res.data?.message);
+    } catch(err) {
+      toast.error(err.response?.data?.message ?? err.message)
+    }
+    setApplying(false);
   }
 
   return (
     <main id="jobpage">
       <h2 className="sticky-title">
-        <span>{state?.position}</span>
-        <Button label="Apply Now" to="/" />
+        <span>{job?.position}</span>
+        {localStorage.getItem('access_token') && <button className="button" disabled={applying} onClick={() => apply()}> {!applying ? 'Apply Now' : <i className="fa fa-spinner fa-spin fa-fw"></i>}</button>}
       </h2>
       <div className="job-container">
         <div className="job-content">
@@ -41,34 +41,34 @@ const JobPage = () => {
             <p>
               Posted by{" "}
               <Link to="/" className="link">
-                Flight Global
+              {job?.user?.employer?.companyName}
               </Link>{" "}
-              on Monday 8th March
+              {job?.dateCreated}
             </p>
           </div>
           <div className="job-quick-details">
             <div className="job-quick-details__container">
               <ul>
                 <li>
-                  Salary <span>£{state?.salary} per annum</span>
+                  Salary <span>£{job?.salary} per annum</span>
                 </li>
                 <li>
-                  Where <span>{state?.location}</span>
+                  Where <span>{job?.location}</span>
                 </li>
                 <li>
                   Type{" "}
                   <span>
-                    {state?.jobType == "FULL_TIME" ? "Full Time" : "Part Time"}
+                    <span className="badge bg-secondary">{job?.jobType}</span>
                   </span>
                 </li>
                 <li>
-                  Date Posted <span>8th March 2022</span>
+                  Date Posted <span>{job?.dateCreated}</span>
                 </li>
               </ul>
               {/* <Share className="job-quick-details__share" /> */}
             </div>
           </div>
-          <div className="job-content__description">{state?.description}</div>
+          <div className="job-content__description">{job?.description}</div>
         </div>
       </div>
       {/* <div className="related-jobs">Hi</div> */}

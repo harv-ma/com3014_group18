@@ -1,182 +1,97 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./EmployerArea.scss";
 import "../JobList/JobList.scss";
 import { Accordion } from "react-bootstrap";
+import {toast} from "react-toastify";
+import { getProfile } from "../../services/user.service";
+import { getJobsMine } from "../../services/job.service";
+import { Link } from "react-router-dom";
+import { manageApplication } from "../../services/application.service";
 
 const EmployerArea = () => {
+    const [profile, setProfile] = useState({});
+    const [jobs, setJobs] = useState([]);
+
+    useEffect(() => {
+        getProfile().then(res => setProfile(res.data))
+        .catch(err => toast.error(err.response?.data?.message ?? err.message))
+    }, []);
+    
+    useEffect(() => {
+        getJobsMine().then(res => setJobs(res.data))
+        .catch(err => toast.error(err.response?.data?.message ?? err.message));
+    }, []);
+
+    const makeDecision = async (applicationId, status) => {
+        try {
+           const res = manageApplication(applicationId, status);
+           toast.success((await res).data?.message);
+        } catch(err) {
+            toast.error(err.response?.data?.message ?? err.message)
+        }
+    }
+
   return (
   <main id="EmployerArea">
     <div className="detailsBox">
-      <div><img src="https://picsum.photos/150/150" alt="avatar" /></div>
+    <div><img src={profile?.avatarUrl} className="img-thumbnail" alt="avatar" height="150" width="150" /></div>
       <div className="detailsText">
-        <div className="title">(Company Name)</div>
-        <div className="subtitle">Address: (Very Long Address that pushes things far to the right, even farther than that to right please)</div>
-        <div className="subtitle">Phone Number: (Phone Number)</div>
-        <div className="subtitle">Website: (Website)</div>
+        <div className="title">{profile?.user?.employer.companyName}</div>
+        <div className="subtitle">{profile?.user?.employer?.address}</div>
+        <div className="subtitle">{profile?.user?.phoneNumber}</div>
+        <div className="subtitle">{profile?.user?.employer?.website}</div>
       </div>
-      <div><button className="buttonDetails">Update Details</button></div>
+      <div><Link className="btn btn-primary" to="/profile/edit" style={{textDecoration: 'none'}}>Update Details</Link></div>
     </div>
     <div className="title">Company Description</div>
     <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex eacommodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptatevelit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecatcupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim idest laborum.
+        {profile?.user?.employer?.description}
     </div>
     <p></p>
-    <div className="title">Account</div>
-    <div className="subtitle">Email: (Email)</div>
-    <div className="subtitle">Password: **********</div>
-    <p></p>
-    <div className="title">Jobs Open</div>
+    <div className="title">Manage Jobs</div>
     <div className="JobsAccordion">
         <Accordion defaultActiveKey="0" alwaysOpen>
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>
-                    <div id="container">
-                        <div id="left">Job Description #1</div>
-                        <div id="centre">Job Location</div>
-                        <div id="right">Applications: #</div>
-                    </div>
-                </Accordion.Header>
-                <Accordion.Body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborum.
-                    <br></br>
-                    <button className="buttonAccordion">Edit Job</button>
-                    <div className="ApplicantsAccordion">
-                        <Accordion defaultActiveKey="0" alwaysOpen>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                    <div id="container">
-                                        <div id="left">Applicant 1 Name</div>
-                                        <div id="right">Job Title</div>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                    <br></br>
-                                    <div id="container">
-                                        <button className="buttonAccordion">See applicant</button>
-                                        <button className="buttonConfirm">Accept</button>
-                                        <button className="buttonDeny">Deny</button>
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                    <div id="container">
-                                        <div id="left">Applicant 2 Name</div>
-                                        <div id="right">Job Title</div>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                    <br></br>
-                                    <div id="container">
-                                        <button className="buttonAccordion">See applicant</button>
-                                        <button className="buttonConfirm">Accept</button>
-                                        <button className="buttonDeny">Deny</button>
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
-                    </div>
-                </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-                <Accordion.Header>
-                    <div id="container">
-                        <div id="left">Job Description #2</div>
-                        <div id="centre">Job Location</div>
-                        <div id="right">Applications: #</div>
-                    </div>
-                </Accordion.Header>
-                <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                est laborum.
 
+            {jobs && jobs.map((job, index) => (
+            <Accordion.Item eventKey={`${index}`} key={index}>
+            <Accordion.Header>
+                <div id="container">
+                    <div id="left">{job?.position}</div>
+                    <div id="centre">{job?.location}</div>
+                    <div id="right">{job?.applications?.length}</div>
+                </div>
+            </Accordion.Header>
+            <Accordion.Body>
+                {job.description}
                 <br></br>
-                <button className="buttonAccordion">Edit Job</button>
-
+                <Link className="btn btn-primary mt-3 mb-3" to={`/jobs/${job?.id}/edit`} style={{textDecoration: 'none'}}>Edit Job</Link>
                 <div className="ApplicantsAccordion">
-                        <Accordion defaultActiveKey="0">
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                    <div id="container">
-                                        <div id="left">Applicant 1 Name</div>
-                                        <div id="right">Job Title</div>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                    <br></br>
-                                    <div id="container">
-                                        <button className="buttonAccordion">See applicant</button>
-                                        <button className="buttonConfirm">Accept</button>
-                                        <button className="buttonDeny">Deny</button>
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                    <div id="container">
-                                        <div id="left">Applicant 2 Name</div>
-                                        <div id="right">Job Title</div>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                    <br></br>
-                                    <div id="container">
-                                        <button className="buttonAccordion">See applicant</button>
-                                        <button className="buttonConfirm">Accept</button>
-                                        <button className="buttonDeny">Deny</button>
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
-                    </div>
-
-                </Accordion.Body>
+                        <Accordion defaultActiveKey="0" alwaysOpen>
+                            {job?.applications && job?.applications?.map((application, index) => (
+                            <Accordion.Item ventKey={`${index}`} key={index}>
+                            <Accordion.Header>
+                                <div id="container">
+                                    <div id="left">{application?.user?.candidate?.firstName} {application?.user?.candidate?.lastName}</div>
+                                    <div id="right">{application?.user?.candidate?.occupation}</div>
+                                </div>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                                {application?.user?.candidate?.bio}
+                                <br></br>
+                                <div id="container">
+                                    <Link className="btn buttonAccordion" to={`/profile/${application?.user?.userId}`} style={{textDecoration: 'none'}}>See applicant</Link>
+                                    <button className="buttonConfirm" onClick={() => makeDecision(application?.id, "ACCEPTED")}>Accept</button>
+                                    <button className="buttonDeny" onClick={() => makeDecision(application?.id, "REJECTED")}>Deny</button>
+                                </div>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        ))}
+                    </Accordion>
+                </div>
+            </Accordion.Body>
             </Accordion.Item>
-        </Accordion>
+            ))}
+        </Accordion>    
     </div>
   </main>);
 };
