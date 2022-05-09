@@ -5,9 +5,10 @@ import { Accordion } from "react-bootstrap";
 import { deleteUser, getProfile } from "../../services/user.service";
 import {toast} from "react-toastify";
 import { myApplication } from "../../services/application.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CandidateArea = () => {
+  let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({});
   const [applications, setApplications] = useState([]);
@@ -27,7 +28,7 @@ const CandidateArea = () => {
       await deleteUser(userId);
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
-      navigate('/login');
+      navigate('/login', {replace: true});
       toast.success('User deleted successfully');
     }catch(err) {
       toast.error(err.response?.data?.message ?? err.message)
