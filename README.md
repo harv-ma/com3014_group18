@@ -14,8 +14,8 @@ How to run:
 <img src="backend/keycloak/setup1.png"  alt="keycloak"/>
      - From the image above, click <b>Add Realm</b>
 <img src="backend/keycloak/setup2.png"  alt="keycloak"/>
-     - From the image above, on the import click <b>Select file</b> and upload the file <b>realm-export.json</b> located in the keycloak folder file. Then click create
-     - <b>Voila!</b> The Backend is all done
+     - From the image above, on the import click <b>Select file</b> and upload the file <b>realm-export.json</b> located in the keycloak folder file. Then click create<br>
+     - <b>Voila!</b> The Backend is all done<br>
  - Frontend
    - Run <code>cd .. && cd client</code> to exit the backend directory to the client directory
    - Run <code>npm install</code> to install all third-party packages
