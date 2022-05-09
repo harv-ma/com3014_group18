@@ -70,9 +70,4 @@ public class UserController {
                                                              @RequestBody @Valid ChangePasswordDto changePasswordDto) {
         return ResponseEntity.ok(userService.changePassword(Utility.getCurrentUserId(request), changePasswordDto));
     }
-
-    @PostMapping(value="password-reset/send")
-    public ResponseEntity<MessageResponseDto> sendPasswordReset(@RequestBody @Valid SendPasswordResetDto request) {
-        return ResponseEntity.ok(userService.sendPasswordReset(request));
-    }
 }

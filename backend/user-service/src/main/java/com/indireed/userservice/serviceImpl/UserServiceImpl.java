@@ -156,9 +156,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailDto update(UUID userId, UserUpdateDto request) {
-//        UserRepresentation userUpdate = new UserRepresentation();
-//        userUpdate.setEmail(request.getEmail());
-//        getKeyCloak().realm(realmName).users().get(userId.toString()).update(userUpdate);
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         if (userProfile.getUserType().equals(UserType.EMPLOYER)) {
             userProfile.setCandidate(null);
@@ -187,16 +184,5 @@ public class UserServiceImpl implements UserService {
         cred.setTemporary(false);
         getKeyCloak().realm(realmName).users().get(userId.toString()).resetPassword(cred);
         return new MessageResponseDto("Password updated successfully");
-    }
-
-    @Override
-    public MessageResponseDto sendPasswordReset(SendPasswordResetDto request) {
-        List<UserRepresentation> userRepresentations =
-                getKeyCloak().realm(realmName).users().search(request.getEmail(), true);
-        if (userRepresentations.isEmpty()) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        getKeyCloak().realm(realmName).users().get(userRepresentations.get(0).getId()).executeActionsEmail(List.of("UPDATE_PASSWORD"));
-        return new MessageResponseDto("Password Reset link has been send to your mail");
     }
 }

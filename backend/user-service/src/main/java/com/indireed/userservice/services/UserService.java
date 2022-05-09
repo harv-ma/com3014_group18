@@ -17,6 +17,6 @@ public interface UserService {
     UserDetailDto update(UUID userId, UserUpdateDto request);
     MessageResponseDto uploadCandidateResume(UUID userId, MultipartFile file);
     MessageResponseDto changePassword(UUID userId, ChangePasswordDto request);
-    MessageResponseDto sendPasswordReset(SendPasswordResetDto request);
+
 
 }

@@ -1,15 +1,16 @@
 package com.indireed.applicationservice;
 
 import com.indireed.applicationservice.dtos.ApplicationDetailDto;
+import com.indireed.applicationservice.dtos.JobDetailDto;
 import com.indireed.applicationservice.dtos.MessageResponseDto;
+import com.indireed.applicationservice.dtos.UserDetailDto;
 import com.indireed.applicationservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.client.RestTemplate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,25 +18,40 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService{
     private final ApplicationRepository applicationRepository;
+    private final RestTemplate restTemplate;
 
     @Override
-    public Page<ApplicationDetailDto> findAllApplied(int page, int size, UUID userId) {
-        if (page < 1)
-            page = 1;
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-        return applicationRepository.
-                findAllByUserId(pageable, userId).map(entity -> new ModelMapper().map(entity, ApplicationDetailDto.class));
+    public List<ApplicationDetailDto> findAllApplied(UUID userId) {
+        List<ApplicationDetailDto> applicationList = new ArrayList<>();
+        List<Application> applications = applicationRepository.findAllByUserId(userId);
+        for (Application application : applications) {
+            ApplicationDetailDto applicationDetailDto = new ModelMapper().map(application, ApplicationDetailDto.class);
+            try {
+                applicationDetailDto.setJob(restTemplate.getForObject("http://JOB-SERVICE/jobs/" + application.getJobId() + "/find", JobDetailDto.class));
+            }catch (Exception ex) {
+                ex.printStackTrace();
+                applicationDetailDto.setJob(null);
+            }
+            applicationList.add(applicationDetailDto);
+        }
+        return applicationList;
     }
 
     @Override
-    public Page<ApplicationDetailDto> findAllByJob(UUID jobId, int page, int size) {
-        if (page < 1)
-            page = 1;
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-        return applicationRepository.
-                findAllByJobId(pageable, jobId).map(entity -> new ModelMapper().map(entity, ApplicationDetailDto.class));
+    public List<ApplicationDetailDto> findAllByJob(UUID jobId) {
+        List<ApplicationDetailDto> applicationList = new ArrayList<>();
+        List<Application> applications = applicationRepository.findAllByJobId(jobId);
+        for (Application application : applications) {
+            ApplicationDetailDto applicationDetailDto = new ModelMapper().map(application, ApplicationDetailDto.class);
+            try {
+                applicationDetailDto.setUser(restTemplate.getForObject("http://USER-SERVICE/users/" + application.getUserId() + "/find", UserDetailDto.class));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                applicationDetailDto.setUser(null);
+            }
+            applicationList.add(applicationDetailDto);
+        }
+        return applicationList;
     }
 
     @Override

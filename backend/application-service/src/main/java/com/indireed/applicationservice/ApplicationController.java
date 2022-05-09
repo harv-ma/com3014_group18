@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,18 +20,13 @@ public class ApplicationController {
 
     @GetMapping(value = "")
     @PreAuthorize("hasRole('ROLE_CANDIDATE')")
-    public ResponseEntity<Page<ApplicationDetailDto>> findAllApplied(HttpServletRequest request,
-                                                                     @RequestParam(value = "page") int page,
-                                                                     @RequestParam(value = "size") int size) {
-        return ResponseEntity.ok(applicationService.findAllApplied(page, size, Utility.getCurrentUserId(request)));
+    public ResponseEntity<List<ApplicationDetailDto>> findAllApplied(HttpServletRequest request) {
+        return ResponseEntity.ok(applicationService.findAllApplied(Utility.getCurrentUserId(request)));
     }
 
     @GetMapping(value = "job/{jobId}")
-    @PreAuthorize("hasRole('ROLE_CANDIDATE')")
-    public ResponseEntity<Page<ApplicationDetailDto>> findAllByJob(@PathVariable(value = "jobId") UUID jobId,
-                                                                   @RequestParam(value = "page") int page,
-                                                                   @RequestParam(value = "size") int size) {
-        return ResponseEntity.ok(applicationService.findAllByJob(jobId, page, size));
+    public ResponseEntity<List<ApplicationDetailDto>> findAllByJob(@PathVariable(value = "jobId") UUID jobId) {
+        return ResponseEntity.ok(applicationService.findAllByJob(jobId));
     }
 
     @PostMapping(value = "{id}")
