@@ -6,7 +6,7 @@
 How to run:
  - Backend
    - Run <code>cd backend</code>
-   - Run <code>chmod +x build.sh to build all Java application</code>
+   - Run <code>chmod +x build.sh</code> to build all Java application
    - Run <code>docker-compose up --build</code>
    - For first run only:
      - Once the all services are running. Head over to [The KeyCloak Admin Service](http://localhost:9004)
