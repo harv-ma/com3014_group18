@@ -1,9 +1,13 @@
 package com.indireed.jobservice;
 
+import com.indireed.jobservice.config.MessagingConfig;
 import com.indireed.jobservice.dtos.*;
 import com.indireed.jobservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +19,7 @@ import java.util.*;
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public JobDetailDto create(UUID userId, CreateUpdateJobDto request) {
@@ -60,6 +65,7 @@ public class JobServiceImpl implements JobService {
         if(!job.get().getUserId().equals(userId))
             throw new AccessDeniedException("You are not allowed to delete this job");
         jobRepository.delete(job.get());
+        rabbitTemplate.convertAndSend(MessagingConfig.JOB_DELETION_QUEUE, id);
         return new MessageResponseDto("Job deleted successfully");
     }
 
@@ -112,10 +118,11 @@ public class JobServiceImpl implements JobService {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        // TODO: Call Rabbit MQ For application
+        rabbitTemplate.convertAndSend(MessagingConfig.JOB_APPLICATION_QUEUE, new JobApplicationDTO(id, userId));
         return new MessageResponseDto("Application submitted successfully");
     }
 
+    @RabbitListener(queues = {"${queue.name}"})
     private void deleteUserJobs(UUID userId) {
         List<Job> jobs = jobRepository.findAllByUserId(userId);
         jobRepository.deleteAll(jobs);
