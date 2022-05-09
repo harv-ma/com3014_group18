@@ -27,7 +27,7 @@ const Nav = () => {
           </div>
           In the Reeds
         </Link>
-        <Link className="nav-item" to="/search">
+        <Link className="nav-item" to="/contact">
             Contact Us
           </Link>
         {localStorage.getItem('access_token') &&
