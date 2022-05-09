@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import "./CandidateArea.scss";
 import "../JobList/JobList.scss";
 import { Accordion } from "react-bootstrap";
-import { getProfile } from "../../services/user.service";
+import { deleteUser, getProfile } from "../../services/user.service";
 import {toast} from "react-toastify";
 import { myApplication } from "../../services/application.service";
 import { Link } from "react-router-dom";
@@ -21,6 +21,18 @@ const CandidateArea = () => {
     myApplication().then(res => setApplications(res.data))
     .catch(err => toast.error(err.response?.data?.message ?? err.message))
   }, []);
+
+  const deleteUserData = async (userId) => {
+    try {
+      await deleteUser(userId);
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      navigate('/login');
+      toast.success('User deleted successfully');
+    }catch(err) {
+      toast.error(err.response?.data?.message ?? err.message)
+    }
+  }
   
   return (
   <main id="EmployerArea">
@@ -32,6 +44,7 @@ const CandidateArea = () => {
         <div className="subtitle">Occupation: {profile?.candidate?.occupation}</div>
       </div>
       <div><Link className="btn btn-primary" to="/profile/edit" style={{textDecoration: 'none'}}>Update Details</Link></div>&emsp;
+      <div><button className="btn btn-danger" onClick={() => deleteUserData(profile?.userId)}>Delete User</button></div>&emsp;
       {profile?.candidate?.resumeUrl && <div><a className="btn btn-primary" href={profile?.candidate?.resumeUrl} target="_blank" rel="noreferrer" style={{textDecoration: 'none'}}>View Resume</a></div>}
     </div>
     <div className="title">About Me</div>
