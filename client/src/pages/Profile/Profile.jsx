@@ -4,14 +4,25 @@ import "./Profile.scss";
 import { Accordion } from "react-bootstrap";
 import { getProfile } from "../../services/user.service";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProfile()
-      .then((res) => setData(res.data))
-      .catch((err) => toast.error(err.response?.data?.message ?? err.message));
+      .then((res) => {
+        setData(res.data);
+
+        if (res.data?.userType != "CANDIDATE") {
+          navigate("/employer-area");
+        }
+      })
+      .catch((err) => {
+        navigate("/login");
+        // toast.error(err.response?.data?.message ?? err.message);
+      });
   }, []);
 
   const candidate = data?.candidate;
@@ -25,13 +36,6 @@ const Profile = () => {
     // TODO: fill in the rest
     default:
       jobStatus = "Unknown";
-  }
-
-  console.log(data);
-
-  const navigate = useNavigate();
-  if (data?.userType != "CANDIDATE") {
-    navigate("/");
   }
 
   return (
