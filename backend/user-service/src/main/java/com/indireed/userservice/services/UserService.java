@@ -14,6 +14,7 @@ public interface UserService {
     MessageResponseDto uploadAvatar(UUID userId, MultipartFile file);
     UserDetailDto getProfile(UUID userId);
     UserDetailDto getSingle(UUID userId);
+    MessageResponseDto deleteUser(UUID userId);
     UserDetailDto update(UUID userId, UserUpdateDto request);
     MessageResponseDto uploadCandidateResume(UUID userId, MultipartFile file);
     MessageResponseDto changePassword(UUID userId, ChangePasswordDto request);

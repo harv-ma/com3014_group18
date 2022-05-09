@@ -155,6 +155,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public MessageResponseDto deleteUser(UUID userId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        userProfileRepository.delete(userProfile);
+        getKeyCloak().realm(realmName).users().get(userId.toString()).remove();
+        //TODO: Publish to RabbitMQ
+        return new MessageResponseDto("User Deleted Successfully");
+    }
+
+    @Override
     public UserDetailDto update(UUID userId, UserUpdateDto request) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         if (userProfile.getUserType().equals(UserType.EMPLOYER)) {

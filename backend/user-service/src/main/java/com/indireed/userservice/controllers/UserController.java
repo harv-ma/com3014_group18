@@ -51,6 +51,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getSingle(userId));
     }
 
+    @DeleteMapping(value="")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<MessageResponseDto> deleteUser(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.deleteUser(Utility.getCurrentUserId(request)));
+    }
+
     @PutMapping(value="")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDetailDto> updateUser(HttpServletRequest request, @RequestBody @Valid UserUpdateDto userUpdateDto) {

@@ -115,4 +115,9 @@ public class JobServiceImpl implements JobService {
         // TODO: Call Rabbit MQ For application
         return new MessageResponseDto("Application submitted successfully");
     }
+
+    private void deleteUserJobs(UUID userId) {
+        List<Job> jobs = jobRepository.findAllByUserId(userId);
+        jobRepository.deleteAll(jobs);
+    }
 }

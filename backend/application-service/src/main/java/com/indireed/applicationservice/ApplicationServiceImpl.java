@@ -63,4 +63,14 @@ public class ApplicationServiceImpl implements ApplicationService{
         applicationRepository.save(application.get());
         return new MessageResponseDto("Application Status updated successfully");
     }
+
+    private void deleteAllApplicationsByJob(UUID jobId) {
+        List<Application> applications = applicationRepository.findAllByJobId(jobId);
+        applicationRepository.deleteAll(applications);
+    }
+
+    private void deleteAllApplicationsByUser(UUID userId) {
+        List<Application> applications = applicationRepository.findAllByUserId(userId);
+        applicationRepository.deleteAll(applications);
+    }
 }
