@@ -16,8 +16,8 @@ How to run:
 <img src="backend/keycloak/setup2.png"  alt="keycloak"/>
      - From the image above, on the import click <b>Select file</b> and upload the file <b>realm-export.json</b> located in the keycloak folder file. Then click create<br>
      - <b>Voila!</b> The Backend is all done<br>
- - Frontend
-   - Run <code>cd .. && cd client</code> to exit the backend directory to the client directory
-   - Run <code>npm install</code> to install all third-party packages
-   - Run <code>npm start</code> to run the application
+ - Frontend<br>
+   - Run <code>cd .. && cd client</code> to exit the backend directory to the client directory<br>
+   - Run <code>npm install</code> to install all third-party packages<br>
+   - Run <code>npm start</code> to run the application<br>
    - Once it's up and running, head-over to [In The Reed](http://localhost:3000) and get your Dream job 💃
