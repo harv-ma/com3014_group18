@@ -14,7 +14,7 @@ import Register from "../pages/Register";
 const router = () => {
   return (
     <Routes>
-      <Route path="/profile" exact element={<Profile />} />
+      <Route path="/candidate-area" exact element={<Profile />} />
       <Route path="/login" exact element={<Login register={false} />} />
       <Route path="/candidate/register" exact element={<Register isEmployer={false} />} />
       <Route path="/employer/register" exact element={<Register isEmployer={true} />} />

@@ -1,0 +1,76 @@
+@import "../../variables.scss";
+
+
+.profile-intro {
+    display: flex;
+    margin-top: 20px;
+
+    div {
+        width: 300px;
+        border-radius: 100%;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+        }
+    }
+    
+
+    ul {
+        width: 100%;
+        margin-left: 20px;
+        list-style: none;
+        align-items: center;
+
+        li:not(:first-child) {
+            height: 43.2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            span {
+                font-weight: 500;
+                margin-right: 10px;
+                text-align: left;
+            }
+        }
+
+        li:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            button {
+                width: 200px;
+            }
+
+            font-weight: bold;
+            font-size: 20pt;
+        }
+
+    }
+}
+
+.profile-description {
+    margin-top: 40px;
+
+    white-space: pre-line;
+
+    h3 {
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 12pt;
+    }
+}
+
+.profile-applications {
+    margin-top: 30px;
+
+    h3 {
+        font-weight: 500;
+        margin-bottom: 25px;
+    }
+}
