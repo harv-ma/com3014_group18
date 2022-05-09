@@ -74,6 +74,7 @@ public class ApplicationServiceImpl implements ApplicationService{
         applicationRepository.deleteAll(applications);
     }
 
+    @RabbitListener(queues = "user_service_application_deletion_queue")
     private void deleteAllApplicationsByUser(UUID userId) {
         List<Application> applications = applicationRepository.findAllByUserId(userId);
         applicationRepository.deleteAll(applications);

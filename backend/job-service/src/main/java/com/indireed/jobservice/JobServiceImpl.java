@@ -122,7 +122,7 @@ public class JobServiceImpl implements JobService {
         return new MessageResponseDto("Application submitted successfully");
     }
 
-    @RabbitListener(queues = {"${queue.name}"})
+    @RabbitListener(queues = "user_service_job_deletion_queue")
     private void deleteUserJobs(UUID userId) {
         List<Job> jobs = jobRepository.findAllByUserId(userId);
         jobRepository.deleteAll(jobs);

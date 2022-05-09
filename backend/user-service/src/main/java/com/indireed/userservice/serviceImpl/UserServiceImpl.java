@@ -1,6 +1,7 @@
 package com.indireed.userservice.serviceImpl;
 
 
+import com.indireed.userservice.config.MessagingConfig;
 import com.indireed.userservice.dtos.*;
 import com.indireed.userservice.enums.UserType;
 import com.indireed.userservice.exceptions.BadRequestException;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
     @Value("${keycloak.auth-server-url}")
     private String baseUrl;
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
 
     @Override
@@ -162,7 +165,8 @@ public class UserServiceImpl implements UserService {
         }
         userProfileRepository.delete(userProfile);
         getKeyCloak().realm(realmName).users().get(userId.toString()).remove();
-        //TODO: Publish to RabbitMQ
+        rabbitTemplate.convertAndSend(MessagingConfig.USER_JOB_DELETION_QUEUE, userId);
+        rabbitTemplate.convertAndSend(MessagingConfig.USER_APPLICATION_DELETION_QUEUE, userId);
         return new MessageResponseDto("User Deleted Successfully");
     }
 
