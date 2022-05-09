@@ -79,8 +79,8 @@ const EditProfile = () =>  {
         // Update the formData object
         formData.append(
           "file",
-          this.selectedResume,
-          this.selectedResume.name
+          selectedResume,
+          sselectedResume.name
         );
         try {
            const res = uploadResume(formData);
@@ -100,8 +100,8 @@ const EditProfile = () =>  {
         // Update the formData object
         formData.append(
           "file",
-          this.selectedAvatar,
-          this.selectedAvatar.name
+          selectedAvatar,
+          selectedAvatar.name
         );
         try {
            const res = uploadAvatar(formData);
