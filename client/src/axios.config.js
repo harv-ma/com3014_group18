@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {toast} from "react-toastify";
 
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -33,6 +33,7 @@ Axios.interceptors.response.use(
     if (localStorage.getItem("access_token") && error.message.includes("401")) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
+      toast.warning('Login Required');
       window.location.href = "/login";
     }
 

@@ -7,8 +7,16 @@ const Login = () => {
 
   return (
     <main id="login">
-      <div className="login-container">
-        <LoginForm /> 
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6 offset-md-3">
+            <div className="card mt-5">
+              <div className="card-body">
+              <LoginForm /> 
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <Reeds />
     </main>

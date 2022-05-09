@@ -30,12 +30,7 @@ const Register = ({ isEmployer }) =>  {
         setLoading(true);
         e.preventDefault();
         try {
-        
-            isEmployer ? setUserData({...userData, employer: employerData}) :
-             setUserData({...userData, candidate: candidateData})
-
-            console.log(userData);
-            const res = await register(userData);
+            const res = await register(isEmployer ? {...userData, employer: employerData} : {...userData, candidate: candidateData});
             localStorage.setItem('user', JSON.stringify(res.data));
             const loginRes = await login({email: userData.email, password: userData.password});
             ;localStorage.setItem('access_token', loginRes.data?.access_token);
@@ -119,9 +114,9 @@ const Register = ({ isEmployer }) =>  {
                                     </div>
         }
 
-                                <button disabled={loading} type="submit" className="button" id="submit">
-                                        Register
-                                        </button>
+                                    <button disabled={loading} type="submit" className="button" id="submit">
+                                        {!loading ? 'Register' : <i className="fa fa-spinner fa-spin fa-fw"></i>}
+                                     </button>
                                 </form>
                             </dis>
                         </div>

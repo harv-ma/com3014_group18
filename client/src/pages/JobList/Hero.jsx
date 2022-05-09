@@ -8,7 +8,7 @@ const Hero = ({handleSearch}) => {
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
                         <div className="text-center">
-                            <h1 className="mb-5">Welcome to IndiReeds</h1>
+                            <h1 className="mb-5">Your Dream Job Awaits You</h1>
                             <input placeholder="Search..." className="form-control form-control-lg" onChange={handleSearch}/>
                         </div>
                     </div>

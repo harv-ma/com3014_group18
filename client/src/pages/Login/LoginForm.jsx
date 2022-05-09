@@ -42,14 +42,17 @@ const LoginForm = () => {
           placeholder="Email Address"
           callback={inputUpdate}
         />
-        <Input
+        <label className="input-label" htmlFor="password">Password</label>
+        <input
           id="password"
           label="Password"
           placeholder="Password"
-          callback={inputUpdate}
+          onChange={inputUpdate}
+          className="input-input"
+          type="password"
         />
         <button disabled={loading} type="submit" className="button" id="submit">
-          Login
+          {!loading ? 'Login' : <i className="fa fa-spinner fa-spin fa-fw"></i>}
         </button>
       </div>
     </form>

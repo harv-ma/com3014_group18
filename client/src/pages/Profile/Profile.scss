@@ -1,0 +1,93 @@
+@import '../../_variables.scss';
+
+.detailsBox{
+    display: flex;
+    flex-direction: row;
+
+    margin: .5rem;
+    padding: 1rem;
+    align-content: center;
+    align-items: center;
+}
+
+.detailsText{
+    display:flex;
+    flex-direction: column;
+
+    margin: 1rem;
+    padding: 1.5rem;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.title{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.subtitle{
+    font-size: large;
+    font-weight: bold;
+}
+
+.buttonDetails {
+    margin: 1.6rem 0;
+    height: 5rem;
+    width:10rem;
+    border-radius: 10px;
+    background-color: $theme_interest;
+    color: white;
+    font-size: 1.2rem;
+
+    border: none;
+
+    &:hover {
+        background-color: $theme_secondary;
+    }
+}
+.buttonAccordion {
+    margin: 1.6rem 0;
+    height: 3rem;
+    width: 10rem;
+    border-radius: 10px;
+    background-color: $theme_interest;
+    color: white;
+    font-size: 1rem;
+
+    border: none;
+
+    &:hover {
+        background-color: $theme_secondary;
+    }
+} 
+.buttonConfirm {
+    margin: 1.6rem 0;
+    height: 3rem;
+    width: 10rem;
+    border-radius: 10px;
+    background-color: $theme_interest;
+    color: white;
+    font-size: 1rem;
+
+    border: none;
+
+    &:hover {
+        background-color: green;
+    }
+} 
+.buttonDeny {
+    margin: 1.6rem 0;
+    height: 3rem;
+    width: 10rem;
+    border-radius: 10px;
+    background-color: $theme_interest;
+    color: white;
+    font-size: 1rem;
+
+    border: none;
+
+    &:hover {
+        background-color: red;
+    }
+} 
+

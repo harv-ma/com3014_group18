@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./JobPage.scss";
 import { Link, useParams } from "react-router-dom";
-import Button from "../../components/system-ui/Button/Button";
 import { applyToJob, getJob } from "../../services/job.service";
 import {toast} from "react-toastify";
 
 const JobPage = () => {
   const { jobId } = useParams();
   const [loading, setLoading] = useState(false);
+  const [applying, setApplying] = useState(false);
   const [job, setJob] = useState({})
 
   useEffect(() => {
@@ -18,19 +18,21 @@ const JobPage = () => {
   }, [jobId]);
 
   const apply = async () => {
+    setApplying(true);
     try {
-      const res = applyToJob(id);
+      const res = applyToJob(jobId);
       toast.success(res.data?.message);
     } catch(err) {
       toast.error(err.response?.data?.message ?? err.message)
     }
+    setApplying(false);
   }
 
   return (
     <main id="jobpage">
       <h2 className="sticky-title">
         <span>{job?.position}</span>
-        <Button label="Apply Now" to="/" />
+        {localStorage.getItem('access_token') && <button className="button" disabled={applying} onClick={() => apply()}> {!applying ? 'Apply Now' : <i className="fa fa-spinner fa-spin fa-fw"></i>}</button>}
       </h2>
       <div className="job-container">
         <div className="job-content">
@@ -56,7 +58,7 @@ const JobPage = () => {
                 <li>
                   Type{" "}
                   <span>
-                    {job?.jobType == "FULL_TIME" ? "Full Time" : "Part Time"}
+                    <span className="badge bg-secondary">{job?.jobType}</span>
                   </span>
                 </li>
                 <li>
