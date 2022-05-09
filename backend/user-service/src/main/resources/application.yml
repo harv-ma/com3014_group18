@@ -16,6 +16,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   main:
     allow-bean-definition-overriding: true
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 
 eureka:
   client:

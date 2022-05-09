@@ -14,5 +14,7 @@ public class UserDetailDto {
     private String email;
     private String avatarUrl;
     private String phoneNumber;
+    private UUID userId;
     private EmployerDetailDto employer;
+    private CandidateDetailDto candidate;
 }

@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import "./Nav.scss";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import UserContext from "../../../context/UserContext";
-import ReedLogo from "../../svgs/ReedLogo";
+import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
-  const user = useContext(UserContext);
+  const user = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'))
+  const navigate = useNavigate();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+    navigate(0);
+    toast.success('Logout successful');
+  }
 
   return (
     <nav className="primary-nav">
@@ -20,93 +27,35 @@ const Nav = () => {
           </div>
           In the Reeds
         </Link>
-        <Link className="nav-item" to="/search">
-          Job Search
-        </Link>
-        <Link className="nav-item" to="/employer-area">
-          {"Employer's Area"}
-        </Link>
         <Link className="nav-item" to="/contact">
-          Contact Us
-        </Link>
-        {!user.isLoggedIn ? (
+            Contact Us
+          </Link>
+        {localStorage.getItem('access_token') &&
+        <>
+          {user?.userType === 'EMPLOYER' && <Link className="nav-item" to="/employer-area">
+            Employer Area
+          </Link>}
+          {user?.userType === 'CANDIDATE' && <Link className="nav-item" to="/candidate-area">
+            Candidate Area
+          </Link>}
+          {user?.userType === 'EMPLOYER' && <Link className="btn btn-primary" to="/jobs/create">
+              Post a Job
+           </Link>}
+           <button className="btn btn-danger" onClick={() => logout()}>
+              Log Out
+           </button>
+        </>
+        }
+        {!localStorage.getItem('access_token') && (
           <div className="nav-signup">
             <Link className="login" to="/login">
               Login
             </Link>
-            <Link className="signup" to="/register">
+            <Link className="signup" to="/candidate/register">
               Sign Up
             </Link>
           </div>
-        ) : (
-          <div className="user-avatar">Signed in</div>
         )}
-      </div>
-      <div className="mobile-nav">
-        <div className="mobile-inner">
-          <Link className="navbar-brand" to="/">
-            {/* <img src="/logo.png" alt="logo" /> */}
-            <div className="nav-container">
-              <img src="/logo.png" alt="logo" width="50" />
-            </div>
-            In the Reeds
-          </Link>
-          <button
-            onClick={() => {
-              setMobileMenuOpen(!mobileMenuOpen);
-            }}
-          >
-            <div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </button>
-        </div>
-
-        <div
-          className="mobile-menu"
-          style={{ display: mobileMenuOpen ? "block" : "none" }}
-        >
-          <ul>
-            <li>
-              <Link className="nav-item" to="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link className="nav-item" to="/search">
-                Job Search
-              </Link>
-            </li>
-            <li>
-              <Link className="nav-item" to="/employer-area">
-                {"Employer's Area"}
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link className="nav-item" to="/contact">
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              {" "}
-              {!user.isLoggedIn ? (
-                <div className="nav-signup">
-                  <Link className="login" to="/login">
-                    Login
-                  </Link>
-                  <Link className="signup" to="/register">
-                    Sign Up
-                  </Link>
-                </div>
-              ) : (
-                <div className="user-avatar">Signed in</div>
-              )}
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
   );
