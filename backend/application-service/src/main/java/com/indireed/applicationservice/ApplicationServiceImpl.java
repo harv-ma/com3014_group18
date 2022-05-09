@@ -4,6 +4,7 @@ import com.indireed.applicationservice.dtos.*;
 import com.indireed.applicationservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
@@ -61,11 +62,13 @@ public class ApplicationServiceImpl implements ApplicationService{
         return new MessageResponseDto("Application Status updated successfully");
     }
 
+    @RabbitListener(queues = "job_service_application_queue")
     private void applyToJob(JobApplicationDTO request) {
         Application application = new ModelMapper().map(request, Application.class);
         applicationRepository.save(application);
     }
 
+    @RabbitListener(queues = "job_service_deletion_queue")
     private void deleteAllApplicationsByJob(UUID jobId) {
         List<Application> applications = applicationRepository.findAllByJobId(jobId);
         applicationRepository.deleteAll(applications);
