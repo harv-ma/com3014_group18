@@ -1,5 +1,6 @@
 package com.indireed.userservice.config;
 
+import org.cloudinary.json.JSONObject;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -15,6 +16,9 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 
 @KeycloakConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -62,7 +66,6 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy()).and()
                 .formLogin().disable()
-                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated();
+                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated();
     }
 }

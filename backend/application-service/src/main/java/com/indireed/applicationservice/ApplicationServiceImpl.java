@@ -19,6 +19,15 @@ public class ApplicationServiceImpl implements ApplicationService{
     private final RestTemplate restTemplate;
 
     @Override
+    public MessageResponseDto apply(JobApplicationDTO request) {
+        Application application = new Application();
+        application.setJobId(request.getJobId());
+        application.setUserId(request.getUserId());
+        applicationRepository.save(application);
+        return new MessageResponseDto("Application successful");
+    }
+
+    @Override
     public List<ApplicationDetailDto> findAllApplied(UUID userId) {
         List<ApplicationDetailDto> applicationList = new ArrayList<>();
         List<Application> applications = applicationRepository.findAllByUserId(userId);
@@ -62,21 +71,21 @@ public class ApplicationServiceImpl implements ApplicationService{
         return new MessageResponseDto("Application Status updated successfully");
     }
 
-    @RabbitListener(queues = "job_service_application_queue")
-    private void applyToJob(JobApplicationDTO request) {
-        Application application = new ModelMapper().map(request, Application.class);
-        applicationRepository.save(application);
-    }
+//    @RabbitListener(queues = "job_service_application_queue")
+//    private void applyToJob(JobApplicationDTO request) {
+//        Application application = new ModelMapper().map(request, Application.class);
+//        applicationRepository.save(application);
+//    }
+//
+//    @RabbitListener(queues = "job_service_deletion_queue")
+//    private void deleteAllApplicationsByJob(UUID jobId) {
+//        List<Application> applications = applicationRepository.findAllByJobId(jobId);
+//        applicationRepository.deleteAll(applications);
+//    }
 
-    @RabbitListener(queues = "job_service_deletion_queue")
-    private void deleteAllApplicationsByJob(UUID jobId) {
-        List<Application> applications = applicationRepository.findAllByJobId(jobId);
-        applicationRepository.deleteAll(applications);
-    }
-
-    @RabbitListener(queues = "user_service_application_deletion_queue")
-    private void deleteAllApplicationsByUser(UUID userId) {
-        List<Application> applications = applicationRepository.findAllByUserId(userId);
-        applicationRepository.deleteAll(applications);
-    }
+//    @RabbitListener(queues = "user_application_deletion_queue")
+//    private void deleteAllApplicationsByUser(UUID userId) {
+//        List<Application> applications = applicationRepository.findAllByUserId(userId);
+//        applicationRepository.deleteAll(applications);
+//    }
 }

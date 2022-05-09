@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MessagingConfig {
-    public final static String USER_JOB_DELETION_QUEUE = "user_service_job_deletion_queue";
-    public final static String USER_APPLICATION_DELETION_QUEUE = "user_service_application_deletion_queue";
+    public final static String USER_JOB_DELETION_QUEUE = "user_job_deletion_queue";
+    public final static String USER_APPLICATION_DELETION_QUEUE = "user_application_deletion_queue";
 
     @Bean
     public Queue userJobDeletionQueue() {

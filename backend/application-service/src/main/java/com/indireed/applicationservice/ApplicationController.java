@@ -1,6 +1,7 @@
 package com.indireed.applicationservice;
 
 import com.indireed.applicationservice.dtos.ApplicationDetailDto;
+import com.indireed.applicationservice.dtos.JobApplicationDTO;
 import com.indireed.applicationservice.dtos.MessageResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,11 @@ import java.util.UUID;
 @RequestMapping(value = "applications")
 public class ApplicationController {
     private final ApplicationService applicationService;
+
+    @PostMapping(value = "job/{jobId}/apply")
+    public ResponseEntity<MessageResponseDto> apply(@RequestBody JobApplicationDTO request) {
+        return ResponseEntity.ok(applicationService.apply(request));
+    }
 
     @GetMapping(value = "")
     @PreAuthorize("hasRole('ROLE_CANDIDATE')")

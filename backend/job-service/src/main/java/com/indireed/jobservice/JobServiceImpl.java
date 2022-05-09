@@ -2,6 +2,7 @@ package com.indireed.jobservice;
 
 import com.indireed.jobservice.config.MessagingConfig;
 import com.indireed.jobservice.dtos.*;
+import com.indireed.jobservice.exceptions.BadRequestException;
 import com.indireed.jobservice.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -65,7 +66,7 @@ public class JobServiceImpl implements JobService {
         if(!job.get().getUserId().equals(userId))
             throw new AccessDeniedException("You are not allowed to delete this job");
         jobRepository.delete(job.get());
-        rabbitTemplate.convertAndSend(MessagingConfig.JOB_DELETION_QUEUE, id);
+        // rabbitTemplate.convertAndSend(MessagingConfig.JOB_DELETION_QUEUE, id);
         return new MessageResponseDto("Job deleted successfully");
     }
 
@@ -75,7 +76,7 @@ public class JobServiceImpl implements JobService {
         List<Job> jobs;
 
         if (query != null && !query.isEmpty()) {
-            jobs = jobRepository.findAllByPositionContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+            jobs = jobRepository.search(query);
         } else {
             jobs = jobRepository.findAll();
         }
@@ -118,13 +119,20 @@ public class JobServiceImpl implements JobService {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new ResourceNotFoundException("Job not found");
-        rabbitTemplate.convertAndSend(MessagingConfig.JOB_APPLICATION_QUEUE, new JobApplicationDTO(id, userId));
+        // rabbitTemplate.convertAndSend(MessagingConfig.JOB_APPLICATION_QUEUE, new JobApplicationDTO(id, userId));
+        try {
+            MessageResponseDto res = restTemplate.postForObject("http://APPLICATION-SERVICE/applications/job/"+id+"/apply", new JobApplicationDTO(id, userId), MessageResponseDto.class);
+            System.out.println(res);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new BadRequestException(ex.getMessage());
+        }
         return new MessageResponseDto("Application submitted successfully");
     }
 
-    @RabbitListener(queues = "user_service_job_deletion_queue")
-    private void deleteUserJobs(UUID userId) {
-        List<Job> jobs = jobRepository.findAllByUserId(userId);
-        jobRepository.deleteAll(jobs);
-    }
+//    @RabbitListener(queues = "user_job_deletion_queue")
+//    private void deleteUserJobs(UUID userId) {
+//        List<Job> jobs = jobRepository.findAllByUserId(userId);
+//        jobRepository.deleteAll(jobs);
+//    }
 }
