@@ -23,9 +23,9 @@ const CandidateArea = () => {
     .catch(err => toast.error(err.response?.data?.message ?? err.message))
   }, []);
 
-  const deleteUserData = async (userId) => {
+  const deleteUserData = async () => {
     try {
-      await deleteUser(userId);
+      await deleteUser();
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
       navigate('/login', {replace: true});
@@ -45,7 +45,7 @@ const CandidateArea = () => {
         <div className="subtitle">Occupation: {profile?.candidate?.occupation}</div>
       </div>
       <div><Link className="btn btn-primary" to="/profile/edit" style={{textDecoration: 'none'}}>Update Details</Link></div>&emsp;
-      <div><button className="btn btn-danger" onClick={() => deleteUserData(profile?.userId)}>Delete User</button></div>&emsp;
+      <div><button className="btn btn-danger" onClick={() => deleteUserData()}>Delete User</button></div>&emsp;
       {profile?.candidate?.resumeUrl && <div><a className="btn btn-primary" href={profile?.candidate?.resumeUrl} target="_blank" rel="noreferrer" style={{textDecoration: 'none'}}>View Resume</a></div>}
     </div>
     <div className="title">About Me</div>
